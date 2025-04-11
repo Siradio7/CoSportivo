@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.js"
 import checkToken from "./middlewares/checkToken.js"
 import footballDataRoutes from "./routes/footballData.js"
 import usersRoutes from "./routes/users.js"
+import tripsRoutes from "./routes/trips.js"
 import sanitizeInput from "./middlewares/sanitizeInput.js"
 import setupChat from "./socket/chat.js"
 
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use("/auth", authRoutes)
 app.use("/api", checkToken, footballDataRoutes)
 app.use("/users", checkToken, sanitizeInput, usersRoutes)
+app.use("/trips", checkToken, sanitizeInput, tripsRoutes)
 
 const server = app.listen(PORT, () => {
     console.log(`Serveur en écoute sur le port ${PORT}`)
