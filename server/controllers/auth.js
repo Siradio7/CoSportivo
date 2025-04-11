@@ -3,11 +3,12 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 const register = async (req, res) => {
-    const { first_name, last_name, email, password, favourite_team } = req.body
+    const { first_name, last_name, email, password, id_favourite_team } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
-    const request = "INSERT INTO users (first_name, last_name, email, password, favourite_team) VALUES (?, ?, ?, ?, ?)"
+    const registration_date = new Date().toISOString().slice(0, 19).replace("T", " ")
+    const request = "INSERT INTO users (first_name, last_name, email, password, id_favourite_team, registration_date) VALUES (?, ?, ?, ?, ?, ?)"
 
-    db.query(request, [first_name, last_name, email, hashedPassword, favourite_team], (err, result) => {
+    db.query(request, [first_name, last_name, email, hashedPassword, id_favourite_team, registration_date], (err, result) => {
         if (err) {
             return res.status(500).json({ message: "Erreur lors de l'inscription" })
         }
