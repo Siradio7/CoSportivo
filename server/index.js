@@ -5,7 +5,7 @@ import authRoutes from "./routes/auth.js"
 import checkToken from "./middlewares/checkToken.js"
 import footballDataRoutes from "./routes/footballData.js"
 import usersRoutes from "./routes/users.js"
-import sanitizeInput from "./utils/sanitizeInput.js"
+import sanitizeInput from "./middlewares/sanitizeInput.js"
 
 dotenv.config()
 
