@@ -22,7 +22,8 @@ const Header = () => {
             </Link>
 
             <div className="flex items-center justify-between gap-2">
-                {!isAuthenticated ? (
+                {
+                !isAuthenticated && window.location.pathname !== "/login" ? (
                     <>
                         <Link to="/login">
                             <Button icon={<LogIn size={16} />} variant="primary">
@@ -36,7 +37,7 @@ const Header = () => {
                             </Button>
                         </Link>
                     </>
-                ) : (
+                ) : window.location.pathname !== "/login" ? (
                     <Button 
                         className="w-40"
                         icon={<LogOut size={16} />} 
@@ -45,7 +46,8 @@ const Header = () => {
                     >
                         Se déconnecter
                     </Button>
-                )}
+                ) : null
+                }
             </div>
         </header>
     )
