@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import Button from "./button"
 import { LogIn, UserPlus, LogOut } from "lucide-react"
+import toast from "react-hot-toast"
 
 const Header = () => {
     const navigate = useNavigate()
@@ -8,7 +9,10 @@ const Header = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("token")
-        navigate("/")
+        toast.success("Déconnexion réussie")
+        setTimeout(() => {
+            navigate("/login")
+        }, 1000)
     }
 
     return (
