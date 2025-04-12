@@ -1,9 +1,16 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Button from "./button"
-import { LogIn } from "lucide-react"
-import { UserPlus } from "lucide-react"
+import { LogIn, UserPlus, LogOut } from "lucide-react"
 
 const Header = () => {
+    const navigate = useNavigate()
+    const isAuthenticated = localStorage.getItem("token") !== null
+
+    const handleLogout = () => {
+        localStorage.removeItem("token")
+        navigate("/")
+    }
+
     return (
         <header className="w-screen flex items-center justify-between p-4 bg-white shadow-md">
             <Link to="/">
@@ -11,17 +18,30 @@ const Header = () => {
             </Link>
 
             <div className="flex items-center justify-between gap-2">
-                <Link to="/login">
-                    <Button icon={<LogIn size={16} />} variant="primary">
-                        Se connecter
-                    </Button>
-                </Link>
+                {!isAuthenticated ? (
+                    <>
+                        <Link to="/login">
+                            <Button icon={<LogIn size={16} />} variant="primary">
+                                Se connecter
+                            </Button>
+                        </Link>
 
-                <Link to="/register">
-                    <Button icon={<UserPlus size={16} />} variant="secondary">
-                        S'inscrire
+                        <Link to="/register">
+                            <Button icon={<UserPlus size={16} />} variant="secondary">
+                                S'inscrire
+                            </Button>
+                        </Link>
+                    </>
+                ) : (
+                    <Button 
+                        className="w-40"
+                        icon={<LogOut size={16} />} 
+                        variant="danger"
+                        onClick={handleLogout}
+                    >
+                        Se déconnecter
                     </Button>
-                </Link>
+                )}
             </div>
         </header>
     )
