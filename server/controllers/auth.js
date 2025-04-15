@@ -6,7 +6,6 @@ const register = async (req, res) => {
     const { first_name, last_name, email, password, id_favourite_team } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
     const registration_date = new Date().toISOString().slice(0, 19).replace("T", " ")
-    const request = "INSERT INTO users (first_name, last_name, email, password, id_favourite_team, registration_date) VALUES (?, ?, ?, ?, ?, ?)"
 
     const checkUserQuery = "SELECT * FROM users WHERE email = ?"
     db.query(checkUserQuery, [email], (err, result) => {
@@ -17,14 +16,15 @@ const register = async (req, res) => {
         if (result.length > 0) {
             return res.status(409).json({ message: "Cet utilisateur existe déjà" })
         }
-    })
 
-    db.query(request, [first_name, last_name, email, hashedPassword, id_favourite_team, registration_date], (err, result) => {
-        if (err) {
-            return res.status(500).json({ message: "Erreur lors de l'inscription" })
-        }
+        const insertQuery = "INSERT INTO users (first_name, last_name, email, password, id_favourite_team, registration_date) VALUES (?, ?, ?, ?, ?, ?)"
+        db.query(insertQuery, [first_name, last_name, email, hashedPassword, id_favourite_team, registration_date], (err, result) => {
+            if (err) {
+                return res.status(500).json({ message: "Erreur lors de l'inscription" })
+            }
 
-        return res.status(201).json({ message: "Inscription réussie" })
+            return res.status(201).json({ message: "Inscription réussie" })
+        })
     })
 }
 
