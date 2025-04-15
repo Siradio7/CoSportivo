@@ -16,7 +16,11 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 
-app.use(cors())
+app.use(cors({
+    origin: process.env.DEV_FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+}))
 app.use(express.json())
 
 app.use("/auth", authRoutes)
