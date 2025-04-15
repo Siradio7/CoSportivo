@@ -8,6 +8,17 @@ const register = async (req, res) => {
     const registration_date = new Date().toISOString().slice(0, 19).replace("T", " ")
     const request = "INSERT INTO users (first_name, last_name, email, password, id_favourite_team, registration_date) VALUES (?, ?, ?, ?, ?, ?)"
 
+    const checkUserQuery = "SELECT * FROM users WHERE email = ?"
+    db.query(checkUserQuery, [email], (err, result) => {
+        if (err) {
+            return res.status(500).json({ message: "Erreur lors de l'inscription" })
+        }
+
+        if (result.length > 0) {
+            return res.status(409).json({ message: "Cet utilisateur existe déjà" })
+        }
+    })
+
     db.query(request, [first_name, last_name, email, hashedPassword, id_favourite_team, registration_date], (err, result) => {
         if (err) {
             return res.status(500).json({ message: "Erreur lors de l'inscription" })
