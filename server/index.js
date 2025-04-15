@@ -20,7 +20,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/auth", authRoutes)
-app.use("/api", checkToken, footballDataRoutes)
+app.use("/api", footballDataRoutes)
 app.use("/users", checkToken, sanitizeInput, usersRoutes)
 app.use("/trips", checkToken, sanitizeInput, tripsRoutes)
 app.use("/trip-passengers", checkToken, sanitizeInput, tripPassengersRoutes)

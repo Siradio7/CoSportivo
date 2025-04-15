@@ -9,6 +9,7 @@ const HEADERS = {
 
 const CURRENT_DATE = new Date().toISOString().split('T')[0]
 const END_DATE = new Date(new Date().setDate(new Date().getDate() + 13)).toISOString().split('T')[0]
+const ALL_TEAMS = []
 
 const fetchFromAPI = async (endpoint) => {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -70,6 +71,52 @@ const getTeamsByCompetitionId = async (req, res) => {
     }
 }
 
+const getTeams = async (req, res) => {
+    if (ALL_TEAMS.length > 0) {
+        return res.status(200).json(ALL_TEAMS)
+    }
+
+    const competitions = [
+        2021, // Premier League
+        2002, // Bundesliga
+        2014, // La Liga
+        2019, // Serie A
+        2015, // Ligue 1
+        2003, // Eredivisie
+        2017, // Primeira Liga
+        2016 // Championship
+    ]
+
+    let teams = []
+    for (const competition of competitions) {
+        try {
+            const response = await fetchFromAPI(`/competitions/${competition}/teams`)
+
+            teams.push(...response.teams.map(team => ({
+                id: team.id,
+                name: team.name,
+                competition: competition
+            })))
+        } catch (error) {
+            console.error(`Error fetching teams for competition ${competition}:`, error)
+        }
+    }
+
+    if (teams.length === 0) {
+        return res.status(404).json({ error: 'No teams found' })
+    }
+
+    
+    teams = teams.sort((a, b) => a.name.localeCompare(b.name))
+    teams = teams.filter((team, index, self) =>
+        index === self.findIndex((t) => (
+            t.id === team.id
+        ))
+    )
+    ALL_TEAMS.push(...teams)
+    res.status(200).json(teams)
+}
+
 const getTeamById = async (req, res) => {
     const { id } = req.params
 
@@ -100,5 +147,6 @@ export {
     getMatchesByCompetitionId,
     getTeamsByCompetitionId,
     getTeamById,
-    getMatchById
+    getMatchById,
+    getTeams
 }
