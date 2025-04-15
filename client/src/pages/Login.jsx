@@ -40,9 +40,10 @@ const Login = () => {
                     navigate("/dashboard")
                 }, 1000)
             } else {
-                toast.error("Invalid email or password")
+                toast.error("Email ou mot de passe incorrect")
             }
         } catch (error) {
+            toast.error("Une erreur s'est produite lors de la connexion")
             console.error("Error during login:", error)
         }
     }
@@ -59,7 +60,7 @@ const Login = () => {
                 ) : (
                     <div className="w-full flex-1 flex items-center justify-center">
                         <form className="w-sm mx-auto bg-gray-200 px-5 py-8 rounded-sm shadow-md" onSubmit={handleSubmit(handleLogin)}>
-                            <h1 className="text-4xl text-cyan-500 font-bold text-center mb-3">Login</h1>
+                            <h1 className="text-4xl text-cyan-500 font-bold text-center mb-3">Connexion</h1>
 
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900">Email</label>
@@ -76,7 +77,7 @@ const Login = () => {
                             </div>
 
                             <Button type="submit" icon={<LogIn size={16} />} className="w-full">
-                                Login
+                                Se connecter
                             </Button>
                         </form>
                     </div>

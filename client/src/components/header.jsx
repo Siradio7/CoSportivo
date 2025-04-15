@@ -6,6 +6,7 @@ import toast from "react-hot-toast"
 const Header = () => {
     const navigate = useNavigate()
     const isAuthenticated = localStorage.getItem("token") !== null
+    const pathname = window.location.pathname
 
     const handleLogout = () => {
         localStorage.removeItem("token")
@@ -23,7 +24,7 @@ const Header = () => {
 
             <div className="flex items-center justify-between gap-2">
                 {
-                !isAuthenticated && window.location.pathname !== "/login" ? (
+                !isAuthenticated && pathname !== "/login" && pathname !== "/register" ? (
                     <>
                         <Link to="/login">
                             <Button icon={<LogIn size={16} />} variant="primary">
@@ -37,7 +38,7 @@ const Header = () => {
                             </Button>
                         </Link>
                     </>
-                ) : window.location.pathname !== "/login" ? (
+                ) : pathname !== "/login" && pathname !== "/register" ? (
                     <Button 
                         className="w-40"
                         icon={<LogOut size={16} />} 
