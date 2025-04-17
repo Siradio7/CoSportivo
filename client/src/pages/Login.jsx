@@ -35,6 +35,7 @@ const Login = () => {
 
                 const res = await response.json()
                 localStorage.setItem("token", res.token)
+                localStorage.setItem("user", JSON.stringify(res.user))
                 toast.success("Login successful")
                 setTimeout(() => {
                     navigate("/dashboard")
