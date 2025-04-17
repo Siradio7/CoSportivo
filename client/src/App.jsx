@@ -5,6 +5,8 @@ import Login from "./pages/Login"
 import PrivateRoute from "./utils/privateRoute"
 import Dashboard from "./pages/Dashboard"
 import Register from "./pages/Register"
+import CreateTrip from "./pages/CreateTrip"
+import Matches from "./pages/Matches"
 
 const App = () => {
     return (
@@ -20,6 +22,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/matches" element={<PrivateRoute element={<Matches />} />} />
                 <Route
                     path="/dashboard"
                     element={<PrivateRoute element={<Dashboard />} />}
