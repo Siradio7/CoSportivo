@@ -1,53 +1,40 @@
-import { Link, useNavigate } from "react-router-dom"
 import Button from "./button"
-import { LogIn, UserPlus, LogOut } from "lucide-react"
-import toast from "react-hot-toast"
+import { LogIn, UserPlus } from "lucide-react"
+import { Link } from "react-router-dom"
+import Avatar from "./avatar"
 
 const Header = () => {
-    const navigate = useNavigate()
     const isAuthenticated = localStorage.getItem("token") !== null
     const pathname = window.location.pathname
-
-    const handleLogout = () => {
-        localStorage.removeItem("token")
-        toast.success("Déconnexion réussie")
-        setTimeout(() => {
-            navigate("/login")
-        }, 1000)
-    }
+    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+    const name = user ? user.first_name + " " + user.last_name : "Invité"
+    const email = user ? user.email : "Invité"
 
     return (
         <header className="w-screen flex items-center justify-between p-4 bg-white shadow-md">
             <Link to="/">
-                <h1 className="text-cyan-500 font-bold text-xl">CoSportivo</h1>
+                <h1 className="text-cyan-500 font-bold text-xl">⚽️CoSportivo</h1>
             </Link>
 
             <div className="flex items-center justify-between gap-2">
                 {
-                !isAuthenticated && pathname !== "/login" && pathname !== "/register" ? (
-                    <>
-                        <Link to="/login">
-                            <Button icon={<LogIn size={16} />} variant="primary">
-                                Se connecter
-                            </Button>
-                        </Link>
+                    !isAuthenticated && pathname !== "/login" && pathname !== "/register" ? (
+                        <>
+                            <Link to="/login">
+                                <Button icon={<LogIn size={16} />} variant="primary">
+                                    Se connecter
+                                </Button>
+                            </Link>
 
-                        <Link to="/register">
-                            <Button icon={<UserPlus size={16} />} variant="secondary">
-                                S'inscrire
-                            </Button>
-                        </Link>
-                    </>
-                ) : pathname !== "/login" && pathname !== "/register" ? (
-                    <Button 
-                        className="w-40"
-                        icon={<LogOut size={16} />} 
-                        variant="danger"
-                        onClick={handleLogout}
-                    >
-                        Se déconnecter
-                    </Button>
-                ) : null
+                            <Link to="/register">
+                                <Button icon={<UserPlus size={16} />} variant="secondary">
+                                    S'inscrire
+                                </Button>
+                            </Link>
+                        </>
+                    ) : pathname !== "/login" && pathname !== "/register" ? (
+                        <Avatar name={name} email={email} />
+                    ) : null
                 }
             </div>
         </header>
