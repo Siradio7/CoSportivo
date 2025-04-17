@@ -141,6 +141,18 @@ const getMatchById = async (req, res) => {
     }
 }
 
+const getTeamMatches = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const data = await fetchFromAPI(`/teams/${id}/matches?status=SCHEDULED&dateFrom=${CURRENT_DATE}&dateTo=${END_DATE}`)
+
+        res.status(200).json(data)
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
+
 export {
     getCompetitions,
     getCompetitionById,
@@ -148,5 +160,6 @@ export {
     getTeamsByCompetitionId,
     getTeamById,
     getMatchById,
-    getTeams
+    getTeams,
+    getTeamMatches
 }

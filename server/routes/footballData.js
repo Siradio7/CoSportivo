@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getCompetitions, getCompetitionById, getMatchesByCompetitionId, getMatchById, getTeamById, getTeamsByCompetitionId, getTeams } from "../controllers/footballData.js"
+import { getCompetitions, getCompetitionById, getMatchesByCompetitionId, getMatchById, getTeamById, getTeamsByCompetitionId, getTeams, getTeamMatches } from "../controllers/footballData.js"
 
 const router = Router()
 
@@ -10,5 +10,6 @@ router.get("/competitions/:id/teams", getTeamsByCompetitionId)
 router.get("/teams/:id", getTeamById)
 router.get("/matches/:id", getMatchById)
 router.get("/teams", getTeams)
+router.get("/teams/:id/matches", getTeamMatches)
 
 export default router
