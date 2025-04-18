@@ -5,8 +5,9 @@ import Login from "./pages/Login"
 import PrivateRoute from "./utils/privateRoute"
 import Dashboard from "./pages/Dashboard"
 import Register from "./pages/Register"
-import CreateTrip from "./pages/CreateTrip"
 import Matches from "./pages/Matches"
+import Trips from "./pages/Trips"
+import NotFound from "./pages/NotFound"
 
 const App = () => {
     return (
@@ -27,6 +28,7 @@ const App = () => {
                     path="/dashboard"
                     element={<PrivateRoute element={<Dashboard />} />}
                 />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>
     )
