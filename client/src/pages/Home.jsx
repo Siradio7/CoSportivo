@@ -23,12 +23,6 @@ const Home = () => {
                             Voir les covoiturages
                         </Button>
                     </Link>
-
-                    <Link to="/trips/create">
-                        <Button className="w-64 transition-transform hover:scale-105 duration-200" variant="secondary">
-                            Proposer un covoiturage
-                        </Button>
-                    </Link>
                 </div>
             </main>
 
