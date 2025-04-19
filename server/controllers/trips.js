@@ -50,7 +50,7 @@ const getTripById = async (req, res) => {
 
 const getAllTripsByMatchId = async (req, res) => {
     const matchId = req.params.id
-    const sql = "SELECT * FROM trips WHERE match_id = ?"
+    const sql = "SELECT trips.*, users.first_name, users.last_name FROM trips, users WHERE users.id = trips.driver_id AND match_id = ? ORDER BY departure_time ASC "
 
     db.query(sql, [matchId], (err, result) => {
         if (err) {
