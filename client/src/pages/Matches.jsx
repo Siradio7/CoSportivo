@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import Header from "../components/header"
-import Button from "../components/button"
 import toast from "react-hot-toast"
+import Match from "../components/match"
+import { encryptData, decryptData } from "../utils/crypto"
 
 const Matches = () => {
     const [matches, setMatches] = useState([])
@@ -12,10 +13,28 @@ const Matches = () => {
 
     useEffect(() => {
         const fetchMatches = async () => {
+            const cacheKey = `matches_${user.id_favourite_team}`
+            const cached = sessionStorage.getItem(cacheKey)
+
+            if (cached) {
+                const decrypted = decryptData(cached)
+
+                if (decrypted && Date.now() - decrypted.timestamp < 5 * 60 * 1000) {
+                    setMatches(decrypted.data)
+                    setLoading(false)
+                    return
+                }
+            }
+
             try {
                 const response = await fetch(`${API_URL}/api/teams/${user.id_favourite_team}/matches/`)
                 const data = await response.json()
+
                 setMatches(data.matches)
+                sessionStorage.setItem(
+                    cacheKey,
+                    encryptData({ data: data.matches, timestamp: Date.now() })
+                )
             } catch (err) {
                 toast.error("Une erreur s'est produite lors du chargement des matchs")
                 setError("Erreur lors du chargement des matchs 😢")
@@ -39,16 +58,14 @@ const Matches = () => {
                 {
                     loading && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
-                            {
-                                [...Array(3)].map((_, i) => (
-                                    <div key={i} className="bg-white rounded-2xl p-5 h-48 shadow">
-                                        <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
-                                        <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-                                        <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-                                        <div className="h-4 bg-gray-200 rounded w-1/3 mt-4"></div>
-                                    </div>
-                                ))
-                            }
+                            {[...Array(3)].map((_, i) => (
+                                <div key={i} className="bg-white rounded-2xl p-5 h-48 shadow">
+                                    <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
+                                    <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+                                    <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+                                    <div className="h-4 bg-gray-200 rounded w-1/3 mt-4"></div>
+                                </div>
+                            ))}
                         </div>
                     )
                 }
@@ -60,70 +77,18 @@ const Matches = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {
                                 matches.map((match) => (
-                                    <div
+                                    <Match 
                                         key={match.id}
-                                        className="bg-white rounded-2xl shadow-md p-5 flex flex-col gap-4 hover:shadow-xl transition duration-300"
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            <img
-                                                src={match.competition.emblem}
-                                                alt="Logo compétition"
-                                                className="h-8 w-auto"
-                                                onError={(e) => (e.target.style.display = "none")}
-                                            />
-
-                                            <span className="text-xs bg-cyan-100 text-cyan-700 font-medium px-2 py-1 rounded-full truncate">
-                                                {match.competition.name}
-                                            </span>
-
-                                            <img
-                                                src={match.area.flag}
-                                                alt="Drapeau"
-                                                className="h-6 w-auto"
-                                                onError={(e) => (e.target.style.display = "none")}
-                                            />
-                                        </div>
-
-                                        <div className="flex items-center justify-between gap-2">
-                                            <div className="flex items-center gap-2 max-w-[130px]">
-                                                <img src={match.homeTeam.crest} alt="Home" className="h-8 w-8" />
-
-                                                <span className="font-medium truncate" title={match.homeTeam.name}>
-                                                    {match.homeTeam.name}
-                                                </span>
-                                            </div>
-
-                                            <span className="text-gray-500 font-semibold text-sm">vs</span>
-
-                                            <div className="flex items-center gap-2 max-w-[130px] justify-end">
-                                                <span className="font-medium truncate text-right" title={match.awayTeam.name}>
-                                                    {match.awayTeam.name}
-                                                </span>
-                                                
-                                                <img src={match.awayTeam.crest} alt="Away" className="h-8 w-8" />
-                                            </div>
-                                        </div>
-
-                                        <p className="text-center text-sm text-gray-600">
-                                            📅{" "}
-                                            {
-                                                new Date(match.utcDate).toLocaleDateString("fr-FR", {
-                                                    weekday: "long",
-                                                    day: "numeric",
-                                                    month: "long",
-                                                    hour: "2-digit",
-                                                    minute: "2-digit"
-                                                })
-                                            }
-                                        </p>
-
-                                        <Button
-                                            className="mt-2 mx-auto w-full bg-cyan-600 text-white hover:bg-cyan-700 transition rounded-xl py-2"
-                                            variant="primary"
-                                        >
-                                            Voir les covoiturages
-                                        </Button>
-                                    </div>
+                                        id={match.id} 
+                                        competition_emblem={match.competition.emblem} 
+                                        competition_name={match.competition.name}
+                                        area_flag={match.area.flag}
+                                        home_team_crest={match.homeTeam.crest}
+                                        home_team_name={match.homeTeam.name}
+                                        away_team_crest={match.awayTeam.crest}
+                                        away_team_name={match.awayTeam.name}
+                                        utcDate={match.utcDate}
+                                    />
                                 ))
                             }
                         </div>
