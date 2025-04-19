@@ -10,6 +10,13 @@ const HEADERS = {
 const CURRENT_DATE = new Date().toISOString().split('T')[0]
 const END_DATE = new Date(new Date().setDate(new Date().getDate() + 13)).toISOString().split('T')[0]
 const ALL_TEAMS = []
+const competitions = [
+    2021, // Premier League
+    2002, // Bundesliga
+    2014, // La Liga
+    2019, // Serie A
+    2015 // Ligue 1
+]
 
 const fetchFromAPI = async (endpoint) => {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -76,17 +83,6 @@ const getTeams = async (req, res) => {
         return res.status(200).json(ALL_TEAMS)
     }
 
-    const competitions = [
-        2021, // Premier League
-        2002, // Bundesliga
-        2014, // La Liga
-        2019, // Serie A
-        2015, // Ligue 1
-        2003, // Eredivisie
-        2017, // Primeira Liga
-        2016 // Championship
-    ]
-
     let teams = []
     for (const competition of competitions) {
         try {
@@ -146,6 +142,17 @@ const getTeamMatches = async (req, res) => {
 
     try {
         const data = await fetchFromAPI(`/teams/${id}/matches?status=SCHEDULED&dateFrom=${CURRENT_DATE}&dateTo=${END_DATE}`)
+
+        const matches = []
+        for (const competition of competitions) {
+            try {
+                const response = await fetchFromAPI(`/competitions/${competition}/matches?status=SCHEDULED&dateFrom=${CURRENT_DATE}&dateTo=${END_DATE}`)
+                const filteredMatches = response.matches.filter(match => match.homeTeam.id === id || match.awayTeam.id === id)
+                matches.push(...filteredMatches)
+            } catch (error) {
+                console.error(`Error fetching matches for competition ${competition}:`, error)
+            }
+        }
 
         res.status(200).json(data)
     } catch (error) {
