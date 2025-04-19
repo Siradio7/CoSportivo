@@ -99,7 +99,7 @@ const Register = () => {
 
                             <div className="mb-5">
                                 <label className="block mb-2 text-sm font-medium text-gray-900">Nom</label>
-                                <input {...register("last_name")} type="text" id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" placeholder="name@gmail.com" required />
+                                <input {...register("last_name")} type="text" id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" required />
                             </div>
 
                             <div className="mb-5">
