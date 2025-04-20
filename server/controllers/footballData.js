@@ -8,7 +8,7 @@ const HEADERS = {
 }
 
 const CURRENT_DATE = new Date().toISOString().split('T')[0]
-const END_DATE = new Date(new Date().setDate(new Date().getDate() + 13)).toISOString().split('T')[0]
+const END_DATE = new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0]
 const ALL_TEAMS = []
 const competitions = [
     2021, // Premier League
