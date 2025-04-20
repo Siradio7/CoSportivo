@@ -11,7 +11,7 @@ import Button from "../components/button"
 const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
 
 const Login = () => {
-    
+
     const { register, handleSubmit, reset } = useForm()
     const navigate = useNavigate()
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -55,26 +55,42 @@ const Login = () => {
 
             {
                 isSubmitting ? (
-                    <div className="h-screen flex flex-col items-center justify-center bg-gray-100">
+                    <div className="h-screen flex items-center justify-center bg-gray-100">
                         <Loader />
                     </div>
                 ) : (
-                    <div className="w-full flex-1 flex items-center justify-center">
-                        <form className="w-sm mx-auto bg-gray-200 px-5 py-8 rounded-sm shadow-md" onSubmit={handleSubmit(handleLogin)}>
-                            <h1 className="text-4xl text-cyan-500 font-bold text-center mb-3">Connexion</h1>
+                    <div className="flex-1 flex items-center justify-center px-4">
+                        <form
+                            onSubmit={handleSubmit(handleLogin)}
+                            className="w-full max-w-md bg-white px-8 py-10 rounded-2xl shadow-lg space-y-6"
+                        >
+                            <h2 className="text-3xl font-semibold text-center text-cyan-600">Connexion</h2>
 
-                            <div className="mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <input {...register("email")} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" placeholder="name@gmail.com" required />
+                            <div>
+                                <label className="block mb-1 text-sm font-medium text-gray-700">Email</label>
+                                <input
+                                    {...register("email")}
+                                    type="email"
+                                    className="input"
+                                    placeholder="name@gmail.com"
+                                    required
+                                />
                             </div>
 
-                            <div className="mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Mot de passe</label>
-                                <input {...register("password")} type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" required />
+                            <div>
+                                <label className="block mb-1 text-sm font-medium text-gray-700">Mot de passe</label>
+                                <input
+                                    {...register("password")}
+                                    type="password"
+                                    className="input"
+                                    required
+                                />
                             </div>
 
-                            <div className="mb-5">
-                                <Link to="/register" className="text-sm text-cyan-500  hover:underline">Pas de compte ?</Link>
+                            <div className="flex justify-between items-center text-sm">
+                                <Link to="/register" className="text-cyan-600 hover:underline">
+                                    Pas de compte ?
+                                </Link>
                             </div>
 
                             <Button type="submit" icon={<LogIn size={16} />} className="w-full">

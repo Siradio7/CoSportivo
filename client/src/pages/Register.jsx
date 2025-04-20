@@ -37,7 +37,7 @@ const Register = () => {
             toast.error("Les mots de passe ne correspondent pas")
             return
         }
-        
+
         if (!data.id_favourite_team) {
             toast.error("Veuillez sélectionner une équipe favorite")
             return
@@ -79,67 +79,84 @@ const Register = () => {
     }
 
     return (
-        <div className="h-screen flex flex-col bg-gray-100">
+        <div className="h-screen flex flex-col bg-gray-50">
             <Header />
 
             {
                 isSubmitting ? (
-                    <div className="h-screen flex flex-col items-center justify-center bg-gray-100">
+                    <div className="h-screen flex items-center justify-center bg-gray-100">
                         <Loader />
                     </div>
                 ) : (
-                    <div className="w-full flex-1 flex items-center justify-center">
-                        <form className="w-sm mx-auto bg-gray-200 px-5 py-8 rounded-sm shadow-md" onSubmit={handleSubmit(handleRegister)}>
-                            <h1 className="text-4xl text-cyan-500 font-bold text-center mb-3">Inscription</h1>
+                    <div className="flex-1 flex items-center justify-center px-4">
+                        <form
+                            onSubmit={handleSubmit(handleRegister)}
+                            className="w-full max-w-3xl bg-white p-10 rounded-2xl shadow-lg space-y-8"
+                        >
+                            <h2 className="text-3xl font-semibold text-center text-cyan-600">
+                                Créer un compte
+                            </h2>
 
-                            <div className="mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Prénom</label>
-                                <input {...register("first_name")} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" required />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                        Prénom
+                                    </label>
+                                    <input {...register("first_name")} type="text" className="input" required />
+                                </div>
+
+                                <div>
+                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                        Nom
+                                    </label>
+                                    <input {...register("last_name")} type="text" className="input" required />
+                                </div>
+
+                                <div className="md:col-span-2">
+                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                        Email
+                                    </label>
+                                    <input {...register("email")} type="email" className="input" required />
+                                </div>
+
+                                <div>
+                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                        Mot de passe
+                                    </label>
+                                    <input {...register("password")} type="password" className="input" required />
+                                </div>
+
+                                <div>
+                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                        Confirmation du mot de passe
+                                    </label>
+                                    <input {...register("confirmation_password")} type="password" className="input" required />
+                                </div>
+
+                                <div className="md:col-span-2">
+                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                        Équipe favorite
+                                    </label>
+                                    <select {...register("id_favourite_team")} className="input" required>
+                                        <option value="">Sélectionnez une équipe</option>
+                                        {teams.map((team) => (
+                                            <option key={team.id} value={team.id}>
+                                                {team.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
 
-                            <div className="mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Nom</label>
-                                <input {...register("last_name")} type="text" id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" required />
-                            </div>
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                                <Link to="/login" className="text-sm text-cyan-600 hover:underline text-left w-full md:w-auto">
+                                    Déjà un compte ?
+                                </Link>
 
-                            <div className="mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <input {...register("email")} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" placeholder="name@gmail.com" required />
+                                <Button type="submit" icon={<LogIn size={16} />} className="w-full md:w-auto">
+                                    S'inscrire
+                                </Button>
                             </div>
-
-                            <div className="mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Mot de passe</label>
-                                <input {...register("password")} type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" required />
-                            </div>
-
-                            <div className="mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Confirmation du mot de passe</label>
-                                <input {...register("confirmation_password")} type="password" id="confirmation_password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500" required />
-                            </div>
-
-                            <div className="mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Équipe favorite</label>
-                                <select
-                                    {...register("id_favourite_team")}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:border-cyan-500"
-                                    required
-                                >
-                                    <option value="">Sélectionnez une équipe</option>
-                                    {teams.map((team) => (
-                                        <option key={team.id} value={team.id}>
-                                            {team.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="mb-5">
-                                <Link to="/register" className="text-sm text-cyan-500  hover:underline">Déjà un compte ?</Link>
-                            </div>
-
-                            <Button type="submit" icon={<LogIn size={16} />} className="w-full">
-                                S'inscrire
-                            </Button>
                         </form>
                     </div>
                 )
