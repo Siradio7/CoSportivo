@@ -15,8 +15,15 @@ const App = () => {
         <Router>
             <Toaster
                 position="bottom-right"
+                containerStyle={{ margin: "8px" }}
+                gutter={12}
                 toastOptions={{
-                    duration: 3000
+                    success: { duration: 3500 },
+                    error: { duration: 4000 },
+                    style: {
+                        fontSize: "16px",
+                        padding: "16px 24px"
+                    },
                 }}
             />
             
