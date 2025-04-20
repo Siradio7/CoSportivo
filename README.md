@@ -57,13 +57,6 @@ Bienvenue sur **CoSportivo**, une plateforme dédiée aux **supporters** et **sp
 
 ---
 
-## 🧱 Liens utiles
-
-- 🔗 [Modélisation BDD](https://www.notion.so/Mod-lisation-BDD-1c80936b62668049b44ce84682d78962?pvs=21)
-- 📁 [Structure du projet](https://www.notion.so/Structure-du-projet-1c90936b6266805da9d5ed6b17afaeb3?pvs=21)
-
----
-
 ## 🚀 Lancement du projet
 
 ### 1. Cloner le repo
