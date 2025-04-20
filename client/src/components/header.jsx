@@ -47,13 +47,18 @@ const Header = () => {
                 </div>
 
                 <div className="md:hidden">
-                    <button
-                        className="text-cyan-600 focus:outline-none"
-                        onClick={() => setMenuOpen(!menuOpen)}
-                    >
-                        {menuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
+                    {isAuthenticated ? (
+                        <Avatar name={name} email={email} />
+                    ) : pathname !== "/login" && pathname !== "/register" ? (
+                        <button
+                            className="text-cyan-600 focus:outline-none"
+                            onClick={() => setMenuOpen(!menuOpen)}
+                        >
+                            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    ) : null}
                 </div>
+
             </div>
 
             {menuOpen && (
