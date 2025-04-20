@@ -9,6 +9,7 @@ import Matches from "./pages/Matches"
 import Trips from "./pages/Trips"
 import NotFound from "./pages/NotFound"
 import CreateTrip from "./pages/CreateTrip"
+import Settings from "./pages/Settings"
 
 const App = () => {
     return (
@@ -35,6 +36,7 @@ const App = () => {
                 <Route path="/trips/:id" element={<PrivateRoute element={<Trips />} />} />
                 <Route path="/create-trip/:id" element={<PrivateRoute element={<CreateTrip />} />} />
                 <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
+                <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>

@@ -102,7 +102,7 @@ const getTeams = async (req, res) => {
         return res.status(404).json({ error: 'No teams found' })
     }
 
-    
+
     teams = teams.sort((a, b) => a.name.localeCompare(b.name))
     teams = teams.filter((team, index, self) =>
         index === self.findIndex((t) => (

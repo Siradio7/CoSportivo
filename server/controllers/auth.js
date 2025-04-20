@@ -54,4 +54,21 @@ const login = async (req, res) => {
     })
 }
 
+const checkEmail = (req, res) => {
+    const { email } = req.body
+    const request = "SELECT * FROM users WHERE email = ?"
+
+    db.query(request, [email], (err, result) => {
+        if (err) {
+            return res.status(500).json({ message: "Erreur lors de la vérification de l'email" })
+        }
+
+        if (result.length > 0) {
+            return res.status(200).json({ exists: true })
+        }
+
+        return res.status(200).json({ exists: false })
+    })
+}
+
 export { register, login }

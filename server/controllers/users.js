@@ -15,6 +15,8 @@ const getUserById = (req, res) => {
             return res.status(404).json({ message: "Utilisateur non trouvé" })
         }
 
+        result[0].password = undefined
+
         return res.status(200).json(result[0])
     })
 }
