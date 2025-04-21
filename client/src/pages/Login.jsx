@@ -37,9 +37,7 @@ const Login = () => {
                 localStorage.setItem("token", res.token)
                 localStorage.setItem("user", JSON.stringify(res.user))
                 toast.success("Connexion réussie !")
-                setTimeout(() => {
-                    navigate("/matches")
-                }, 1000)
+                navigate("/matches")
             } else {
                 toast.error("Email ou mot de passe incorrect")
             }
