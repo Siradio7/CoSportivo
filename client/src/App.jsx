@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Toaster } from "react-hot-toast"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import PrivateRoute from "./utils/privateRoute"
@@ -11,9 +13,12 @@ import NotFound from "./pages/NotFound"
 import CreateTrip from "./pages/CreateTrip"
 import Settings from "./pages/Settings"
 
+
 const App = () => {
     return (
         <Router>
+            <Analytics />
+            <SpeedInsights />
             <Toaster
                 position="bottom-right"
                 containerStyle={{ margin: "8px" }}
