@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import Header from "../components/header"
 import Button from "../components/button"
 
@@ -60,12 +60,13 @@ const Trips = () => {
                         <p className="text-gray-500 mb-4">
                             Et si tu étais le premier à en proposer un ? 🚗
                         </p>
-                        <Button
-                            className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-xl"
-                            onClick={() => window.location.href = `/create-trip/${id}`}
-                        >
-                            Proposer un trajet
-                        </Button>
+                        <Link to={`/create-trip/${id}`}>
+                            <Button
+                                className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-xl"
+                            >
+                                Proposer un trajet
+                            </Button>
+                        </Link>
                     </div>
                 )}
 
