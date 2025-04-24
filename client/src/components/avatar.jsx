@@ -21,6 +21,7 @@ const Avatar = ({ name, email }) => {
             className="relative inline-block"
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
+            onClick={() => setIsOpen(!isOpen)}
         >
             <img
                 className="w-10 h-10 rounded-full shadow-md cursor-pointer transition-transform duration-200 hover:scale-105"
