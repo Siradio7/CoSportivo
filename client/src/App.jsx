@@ -12,6 +12,7 @@ import Trips from "./pages/Trips"
 import NotFound from "./pages/NotFound"
 import CreateTrip from "./pages/CreateTrip"
 import Settings from "./pages/Settings"
+import MyTrips from "./pages/MyTrips"
 
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/matches" element={<PrivateRoute element={<Matches />} />} />
                 <Route path="/trips/:id" element={<PrivateRoute element={<Trips />} />} />
+                <Route path="/my-trips" element={<PrivateRoute element={<MyTrips />} />} />
                 <Route path="/create-trip/:id" element={<PrivateRoute element={<CreateTrip />} />} />
                 <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
                 <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
