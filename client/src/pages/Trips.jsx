@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import Header from "../components/header"
 import Button from "../components/button"
+import { motion } from "framer-motion"
 
 const Trips = () => {
     const { id } = useParams()
@@ -44,8 +45,19 @@ const Trips = () => {
                     Covoiturages disponibles 🚗
                 </h2>
 
-                {loading && <p className="text-center text-gray-600">Chargement des trajets...</p>}
-                {error && <p className="text-center text-red-500">{error}</p>}
+                {loading && (
+                    <div className="text-center text-gray-600 animate-pulse">Chargement des trajets...</div>
+                )}
+
+                {error && (
+                    <motion.div 
+                        initial={{ opacity: 0, y: -10 }} 
+                        animate={{ opacity: 1, y: 0 }} 
+                        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
+                    >
+                        {error}
+                    </motion.div>
+                )}
 
                 {!loading && !error && trips.length === 0 && (
                     <div className="text-center mt-10">
@@ -72,10 +84,12 @@ const Trips = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {trips.map((trip) => (
-                        <div
-                            key={trip.id}
-                            className="bg-white rounded-2xl shadow-md p-6 flex flex-col justify-between hover:shadow-xl transition duration-300"
-                        >
+                        <motion.div
+                        key={trip.id}
+                        layout
+                        whileHover={{ scale: 1.01 }}
+                        className="bg-white rounded-2xl shadow-md p-6 flex flex-col justify-between transition-all duration-300"
+                    >
                             <div className="mb-4">
                                 <h3 className="text-xl font-bold text-cyan-700 mb-2 flex items-center gap-2">
                                     👤 {trip.first_name + " " + trip.last_name}
@@ -111,7 +125,7 @@ const Trips = () => {
                             >
                                 Rejoindre le trajet
                             </Button>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
