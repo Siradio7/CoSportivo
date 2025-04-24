@@ -110,7 +110,7 @@ const MyTrips = () => {
                                 <div className="flex flex-col gap-2 mt-4">
                                     <button
                                         onClick={() => openModal(trip)}
-                                        className="bg-cyan-600 text-white hover:bg-cyan-700 transition rounded-xl py-2"
+                                        className="bg-cyan-600 text-white cursor-pointer hover:bg-cyan-700 transition rounded-xl py-2"
                                     >
                                         Détails du trajet
                                     </button>
