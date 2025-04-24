@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode"
+import toast from "react-hot-toast"
 import { Navigate } from "react-router-dom"
 
 const PrivateRoute = ({ element, ...rest }) => {
@@ -17,6 +18,7 @@ const PrivateRoute = ({ element, ...rest }) => {
 
     if (!token || isTokenExpired(token)) {
         localStorage.removeItem('token')
+        toast.error("Session expirée, veuillez vous reconnecter.")
         
         return <Navigate to="/login" />
     }
