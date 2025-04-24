@@ -192,11 +192,14 @@ const Settings = () => {
                             <h3 className="text-2xl font-bold text-cyan-700 mb-6 text-center">🏟️ Mon club favori</h3>
 
                             <div className="flex flex-col md:flex-row gap-8 items-center">
-                                <img
-                                    src={favouriteTeamData.crest}
-                                    alt="Logo du club"
-                                    className="h-28 w-28 object-contain bg-gray-100 p-2 rounded-full shadow"
-                                />
+                                <div className="h-28 w-28 rounded-full bg-gray-100 p-2 shadow flex items-center justify-center">
+                                    <img
+                                        src={favouriteTeamData.crest}
+                                        alt="Logo du club"
+                                        className="h-full w-full object-contain"
+                                    />
+                                </div>
+
 
                                 <div className="flex-1 space-y-3">
                                     <h4 className="text-xl font-semibold text-gray-800">{favouriteTeamData.name}</h4>
