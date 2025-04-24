@@ -61,9 +61,9 @@ const MyTrips = () => {
                 )}
 
                 {error && (
-                    <motion.div 
-                        initial={{ opacity: 0, y: -10 }} 
-                        animate={{ opacity: 1, y: 0 }} 
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
                         className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
                     >
                         {error}
@@ -71,9 +71,9 @@ const MyTrips = () => {
                 )}
 
                 {!isLoading && !error && trips.length === 0 && (
-                    <motion.div 
-                        initial={{ opacity: 0 }} 
-                        animate={{ opacity: 1 }} 
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         className="text-center mt-10"
                     >
                         <MapPinOff className="mx-auto text-cyan-600 w-12 h-12 mb-4 animate-bounce" />
@@ -87,9 +87,9 @@ const MyTrips = () => {
                 )}
 
                 {!isLoading && !error && trips.length > 0 && (
-                    <motion.div 
-                        initial={{ opacity: 0 }} 
-                        animate={{ opacity: 1 }} 
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         className="grid grid-cols-1 sm:grid-cols-2 gap-6"
                     >
                         {trips.map((trip) => (
@@ -140,7 +140,7 @@ const MyTrips = () => {
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.8, opacity: 0 }}
-                            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-lg relative"
+                            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-lg mx-4 relative"
                         >
                             <button
                                 onClick={closeModal}
