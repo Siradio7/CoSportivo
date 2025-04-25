@@ -139,26 +139,26 @@ const Trips = () => {
                                         👤 {trip.first_name + " " + trip.last_name}
                                     </h3>
 
-                                    <p className="text-gray-700 mb-1 flex items-center gap-2">
+                                    <p className="text-gray-700 mb-1 flex flex-wrap items-center gap-1 text-sm md:text-base">
                                         🕒 Départ :{" "}
-                                        <strong>
+                                        <strong className="break-all">
                                             {trip.departure_location} à {trip.departure_time?.slice(0, 5)}
                                         </strong>
                                     </p>
 
-                                    <p className="text-gray-700 mb-1 flex items-center gap-2">
-                                        📍 Arrivée : <strong>{trip.arrival_location}</strong>
+                                    <p className="text-gray-700 mb-1 flex flex-wrap items-center gap-1 text-sm md:text-base">
+                                        📍 Arrivée : <strong className="break-all">{trip.arrival_location}</strong>
                                     </p>
 
-                                    <p className="text-gray-700 mb-1 flex items-center gap-2">
-                                        🚘 Voiture : {trip.car_model || "Modèle inconnu"} • {trip.car_color || "Couleur inconnue"}
+                                    <p className="text-gray-700 mb-1 flex flex-wrap items-center gap-1 text-sm md:text-base">
+                                        🚘 Voiture : <span className="break-all">{trip.car_model || "Modèle inconnu"} • {trip.car_color || "Couleur inconnue"}</span>
                                     </p>
 
-                                    <p className="text-gray-700 mb-1 flex items-center gap-2">
+                                    <p className="text-gray-700 mb-1 flex flex-wrap items-center gap-1 text-sm md:text-base">
                                         💺 Places disponibles : <strong>{trip.available_seats}</strong>
                                     </p>
 
-                                    <p className="text-gray-700 mb-1 flex items-center gap-2">
+                                    <p className="text-gray-700 mb-1 flex flex-wrap items-center gap-1 text-sm md:text-base">
                                         💰 Prix : <strong>{trip.price} €</strong>
                                     </p>
                                 </div>

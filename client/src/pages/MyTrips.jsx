@@ -216,20 +216,20 @@ const MyTrips = () => {
                                 </div>
                                 
                                 <div className="mb-4 space-y-2">
-                                    <p className="text-gray-700">🕒 Départ : <strong>{trip.departure_location} à {trip.departure_time?.slice(0, 5)}</strong></p>
-                                    <p className="text-gray-700">📍 Arrivée : <strong>{trip.arrival_location}</strong></p>
+                                    <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">🕒 Départ : <strong className="break-all">{trip.departure_location}</strong> à <strong>{trip.departure_time?.slice(0, 5)}</strong></p>
+                                    <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">📍 Arrivée : <strong className="break-all">{trip.arrival_location}</strong></p>
                                     
                                     {activeTab === 'created' ? (
                                         <>
-                                            <p className="text-gray-700">🚘 Voiture : {trip.car_model || "Modèle inconnu"} • {trip.car_color || "Couleur inconnue"}</p>
-                                            <p className="text-gray-700">💺 Places : <strong>{trip.available_seats}</strong></p>
-                                            <p className="text-gray-700">💰 Prix : <strong>{trip.price} €</strong></p>
+                                            <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">🚘 Voiture : <span className="break-all">{trip.car_model || "Modèle inconnu"} • {trip.car_color || "Couleur inconnue"}</span></p>
+                                            <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">💺 Places : <strong>{trip.available_seats}</strong></p>
+                                            <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">💰 Prix : <strong>{trip.price} €</strong></p>
                                         </>
                                     ) : (
                                         <>
-                                            <p className="text-gray-700"><User size={16} className="inline mr-1" /> <strong>{trip.driver_name || "Conducteur"}</strong></p>
-                                            <p className="text-gray-700">🚘 Voiture : {trip.car_model || "Modèle inconnu"} • {trip.car_color || "Couleur inconnue"}</p>
-                                            <p className="text-gray-700">💰 Prix total : <strong>{(trip.price * (trip.seats_reserved || 1))} €</strong></p>
+                                            <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1"><User size={16} className="inline mr-1" /> <strong className="break-all">{trip.driver_name || "Conducteur"}</strong></p>
+                                            <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">🚘 Voiture : <span className="break-all">{trip.car_model || "Modèle inconnu"} • {trip.car_color || "Couleur inconnue"}</span></p>
+                                            <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">💰 Prix total : <strong>{(trip.price * (trip.seats_reserved || 1))} €</strong></p>
                                         </>
                                     )}
                                 </div>
@@ -317,19 +317,19 @@ const MyTrips = () => {
                             ) : null}
                             
                             <div className="space-y-2">
-                                <p>🕒 Départ <strong>{selectedTrip.departure_location}</strong> à <strong>{selectedTrip.departure_time?.slice(0, 5)}</strong></p>
-                                <p>📍 Arrivée <strong>{selectedTrip.arrival_location}</strong></p>
-                                <p>🚘 Voiture <strong>{selectedTrip.car_model || "Inconnu"}</strong> - {selectedTrip.car_color || "Inconnue"}</p>
+                                <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">🕒 Départ : <strong className="break-all">{selectedTrip.departure_location}</strong> à <strong>{selectedTrip.departure_time?.slice(0, 5)}</strong></p>
+                                <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">📍 Arrivée : <strong className="break-all">{selectedTrip.arrival_location}</strong></p>
+                                <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">🚘 Voiture : <span className="break-all"><strong>{selectedTrip.car_model || "Inconnu"}</strong> - {selectedTrip.car_color || "Inconnue"}</span></p>
                                 
                                 {activeTab === 'created' ? (
                                     <>
-                                        <p>💺 Places <strong>{selectedTrip.available_seats}</strong></p>
-                                        <p>💰 Prix <strong>{selectedTrip.price} €</strong></p>
+                                        <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">💺 Places : <strong>{selectedTrip.available_seats}</strong></p>
+                                        <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">💰 Prix : <strong>{selectedTrip.price} €</strong></p>
                                     </>
                                 ) : (
                                     <>
-                                        <p>💺 Places réservées <strong>{selectedTrip.seats_reserved || 1}</strong></p>
-                                        <p>💰 Prix total <strong>{(selectedTrip.price * (selectedTrip.seats_reserved || 1))} €</strong></p>
+                                        <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">💺 Places réservées : <strong>{selectedTrip.seats_reserved || 1}</strong></p>
+                                        <p className="text-gray-700 text-sm md:text-base flex flex-wrap items-center gap-1">💰 Prix total : <strong>{(selectedTrip.price * (selectedTrip.seats_reserved || 1))} €</strong></p>
                                     </>
                                 )}
                             </div>
