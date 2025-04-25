@@ -37,8 +37,10 @@ const io = new Server(server, {
     cors: {
         origin: process.env.DEV_FRONTEND_URL,
         methods: ["GET", "POST"],
-    }
+    },
+    transports: ["websocket"],
+    allowEIO3: true
 })
 
 setupChat(io)
-io.listen(4000)
+io.listen(process.env.SOCKET_PORT || 5001)
