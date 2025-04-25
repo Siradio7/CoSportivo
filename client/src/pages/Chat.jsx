@@ -151,32 +151,32 @@ const Chat = () => {
                     </motion.div>
                 ) : (
                     <>
-                        <div className="bg-white rounded-t-2xl p-4 shadow-md border border-gray-200">
+                        <div className="bg-white rounded-t-2xl p-3 sm:p-4 shadow-md border border-gray-200">
                             <div className="flex justify-between items-center mb-2">
                                 <button 
                                     onClick={handleGoBack}
-                                    className="text-gray-600 hover:text-gray-800 transition flex items-center gap-2"
+                                    className="text-gray-600 hover:text-gray-800 transition flex items-center gap-1"
                                 >
-                                    <ArrowLeft size={20} />
-                                    <span>Retour</span>
+                                    <ArrowLeft size={18} />
+                                    <span className="text-sm sm:text-base">Retour</span>
                                 </button>
-                                <div className="flex items-center gap-2 text-cyan-600">
-                                    <MessageSquare size={18} />
-                                    <span className="font-medium">Chat de trajet</span>
+                                <div className="flex items-center gap-1 text-cyan-600">
+                                    <MessageSquare size={16} className="sm:w-[18px] sm:h-[18px]" />
+                                    <span className="font-medium text-sm sm:text-base">Chat de trajet</span>
                                 </div>
                             </div>
                             
                             {trip && (
-                                <div className="bg-cyan-50 rounded-xl p-3 flex justify-between items-center border border-cyan-100">
-                                    <div>
-                                        <h2 className="font-bold text-gray-800">
+                                <div className="bg-cyan-50 rounded-xl p-2 sm:p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center border border-cyan-100 gap-2">
+                                    <div className="overflow-hidden">
+                                        <h2 className="font-bold text-gray-800 text-sm sm:text-base truncate">
                                             {trip.departure_location} → {trip.arrival_location}
                                         </h2>
-                                        <p className="text-sm text-gray-600">
+                                        <p className="text-xs sm:text-sm text-gray-600">
                                             🕒 Départ le {new Date().toLocaleDateString('fr-FR')} à {trip.departure_time?.slice(0, 5)}
                                         </p>
                                     </div>
-                                    <div className="bg-cyan-100 text-cyan-800 p-1 px-2 rounded-lg text-xs font-medium flex items-center">
+                                    <div className="bg-cyan-100 text-cyan-800 p-1 px-2 rounded-lg text-xs font-medium flex items-center self-start sm:self-auto">
                                         <Users size={14} className="mr-1" />
                                         {trip.available_seats} places
                                     </div>
@@ -186,7 +186,8 @@ const Chat = () => {
                         
                         <div 
                             ref={chatContainerRef}
-                            className="flex-1 bg-gradient-to-b from-gray-50 to-gray-100 p-4 overflow-y-auto min-h-[60vh] max-h-[60vh] shadow-inner"
+                            className="flex-1 bg-gradient-to-b from-gray-50 to-gray-100 p-2 sm:p-4 overflow-y-auto h-full min-h-0 flex flex-col shadow-inner"
+                            style={{ height: 'calc(100vh - 280px)' }}
                         >
                             {messages.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center h-full text-center my-12 text-gray-500">
@@ -215,29 +216,29 @@ const Chat = () => {
                                                         key={index}
                                                         initial={{ opacity: 0, x: isCurrentUser ? 20 : -20 }}
                                                         animate={{ opacity: 1, x: 0 }}
-                                                        className={`mb-4 flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
+                                                        className={`mb-3 flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
                                                     >
                                                         {!isCurrentUser && (
-                                                            <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center mr-2 flex-shrink-0 text-xs font-bold">
+                                                            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gray-300 flex items-center justify-center mr-1 sm:mr-2 flex-shrink-0 text-xs font-bold">
                                                                 {getInitials(username)}
                                                             </div>
                                                         )}
                                                         
-                                                        <div className="flex flex-col max-w-[75%]">
+                                                        <div className="flex flex-col max-w-[75%] sm:max-w-[70%]">
                                                             {!isCurrentUser && (
-                                                                <span className="text-xs text-gray-500 ml-2 mb-1">
+                                                                <span className="text-xs text-gray-500 ml-1 sm:ml-2 mb-0.5 sm:mb-1">
                                                                     {username}
                                                                 </span>
                                                             )}
                                                             
                                                             <div 
-                                                                className={`px-4 py-2.5 rounded-2xl shadow-sm ${
+                                                                className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl shadow-sm ${
                                                                     isCurrentUser 
                                                                         ? 'bg-cyan-600 text-white rounded-tr-none ml-auto' 
                                                                         : 'bg-white text-gray-800 rounded-tl-none'
                                                                 }`}
                                                             >
-                                                                <p className="whitespace-pre-wrap break-words">{msg.message}</p>
+                                                                <p className="whitespace-pre-wrap break-words text-sm sm:text-base">{msg.message}</p>
                                                                 <p className={`text-[10px] text-right mt-1 ${isCurrentUser ? 'text-cyan-100' : 'text-gray-500'}`}>
                                                                     {formatTime(msg.created_at || msg.time)}
                                                                 </p>
@@ -245,7 +246,7 @@ const Chat = () => {
                                                         </div>
                                                         
                                                         {isCurrentUser && (
-                                                            <div className="w-8 h-8 rounded-full bg-cyan-100 flex items-center justify-center ml-2 flex-shrink-0 text-xs font-bold text-cyan-800">
+                                                            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-cyan-100 flex items-center justify-center ml-1 sm:ml-2 flex-shrink-0 text-xs font-bold text-cyan-800">
                                                                 {getInitials(user.first_name + ' ' + user.last_name)}
                                                             </div>
                                                         )}
@@ -261,25 +262,26 @@ const Chat = () => {
                         
                         <form 
                             onSubmit={sendMessage}
-                            className="bg-white rounded-b-2xl shadow-md p-4 flex items-center gap-2 border border-gray-200 border-t-0"
+                            className="bg-white rounded-b-2xl shadow-md p-2 sm:p-4 flex items-center gap-2 border border-gray-200 border-t-0"
                         >
                             <input
                                 type="text"
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
-                                className="flex-1 border border-gray-300 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                className="flex-1 border border-gray-300 rounded-xl py-2 sm:py-3 px-3 sm:px-4 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-cyan-500"
                                 placeholder="Écrire un message..."
                             />
                             <button
                                 type="submit"
-                                className={`p-3 rounded-xl transition-colors duration-200 ${
+                                className={`p-2 sm:p-3 rounded-xl transition-colors duration-200 ${
                                     message.trim() === "" 
                                     ? "bg-gray-200 text-gray-400 cursor-not-allowed" 
                                     : "bg-cyan-600 text-white hover:bg-cyan-700"
                                 }`}
                                 disabled={message.trim() === ""}
+                                aria-label="Envoyer"
                             >
-                                <Send size={20} />
+                                <Send size={18} className="sm:w-5 sm:h-5" />
                             </button>
                         </form>
                     </>
