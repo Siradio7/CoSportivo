@@ -133,10 +133,42 @@ const cancellReservation = async (req, res) => {
     })
 }
 
+const getTripsByPassengerId = async (req, res) => {
+    const userId = req.params.id
+    const sql = `
+        SELECT 
+            tp.id as passenger_id,
+            tp.seats_reserved,
+            tp.status,
+            t.*,
+            u.first_name,
+            u.last_name,
+            CONCAT(u.first_name, ' ', u.last_name) as driver_name
+        FROM 
+            trip_passengers tp
+        JOIN 
+            trips t ON tp.trip_id = t.id
+        JOIN
+            users u ON t.driver_id = u.id
+        WHERE 
+            tp.user_id = ?
+    `
+
+    db.query(sql, [userId], (err, result) => {
+        if (err) {
+            console.error("Erreur lors de la récupération des trajets du passager:", err)
+            return res.status(500).json({ message: "Erreur interne du serveur" })
+        }
+
+        res.status(200).json(result)
+    })
+}
+
 export {
     joinTrip,
     getAllTripPassengers,
     getTripPassengerById,
     updateTripPassenger,
-    cancellReservation
+    cancellReservation,
+    getTripsByPassengerId
 }
