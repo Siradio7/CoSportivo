@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound"
 import CreateTrip from "./pages/CreateTrip"
 import Settings from "./pages/Settings"
 import MyTrips from "./pages/MyTrips"
+import Chat from "./pages/Chat"
 import JoinTrip from "./pages/JoinTrip"
 
 
@@ -46,6 +47,7 @@ const App = () => {
                 <Route path="/join-trip/:tripId" element={<PrivateRoute element={<JoinTrip />} />} />
                 <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
                 <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
+                <Route path="/chat/:tripId" element={<PrivateRoute element={<Chat />} />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>
