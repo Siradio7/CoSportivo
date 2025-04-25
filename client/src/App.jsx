@@ -5,7 +5,6 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import PrivateRoute from "./utils/privateRoute"
-import Dashboard from "./pages/Dashboard"
 import Register from "./pages/Register"
 import Matches from "./pages/Matches"
 import Trips from "./pages/Trips"
@@ -45,7 +44,6 @@ const App = () => {
                 <Route path="/my-trips" element={<PrivateRoute element={<MyTrips />} />} />
                 <Route path="/create-trip/:id" element={<PrivateRoute element={<CreateTrip />} />} />
                 <Route path="/join-trip/:tripId" element={<PrivateRoute element={<JoinTrip />} />} />
-                <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
                 <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
                 <Route path="/chat/:tripId" element={<PrivateRoute element={<Chat />} />} />
                 <Route path="*" element={<NotFound />} />
