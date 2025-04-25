@@ -13,10 +13,10 @@ const Header = () => {
     const email = user ? user.email : "Invité"
 
     return (
-        <header className="w-full bg-white shadow-sm px-6 py-4 sticky top-0 z-50">
+        <header className="w-full bg-white shadow-sm px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-2">
-                    <span className="text-xl font-bold text-cyan-600 hover:text-cyan-700 transition duration-300">
+                <Link to="/" className="flex items-center gap-1 sm:gap-2">
+                    <span className="text-lg sm:text-xl font-bold text-cyan-600 hover:text-cyan-700 transition duration-300">
                         ⚽CoSportivo
                     </span>
                 </Link>
