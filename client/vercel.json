@@ -1,17 +1,11 @@
 {
-    "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
-    ],
     "headers": [
         {
             "source": "/(.*)",
             "headers": [
                 {
                     "key": "Content-Security-Policy",
-                    "value": "default-src 'self'; img-src *; script-src 'self'; style-src 'self' 'unsafe-inline'"
+                    "value": "default-src 'self'; img-src *; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self';"
                 },
                 {
                     "key": "X-Frame-Options",
@@ -26,6 +20,12 @@
                     "value": "no-referrer"
                 }
             ]
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
         }
     ]
 }
