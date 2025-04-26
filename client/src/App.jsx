@@ -23,15 +23,55 @@ const App = () => {
             <SpeedInsights />
             <Toaster
                 position="bottom-right"
-                containerStyle={{ margin: "8px" }}
-                gutter={12}
+                gutter={16}
                 toastOptions={{
-                    success: { duration: 3500 },
-                    error: { duration: 4000 },
+                    success: { 
+                        duration: 3500,
+                        icon: '✅',
+                        style: {
+                            background: '#ecfdf5',
+                            color: '#065f46',
+                            border: '1px solid #d1fae5'
+                        }
+                    },
+                    error: { 
+                        duration: 4000,
+                        icon: '❌',
+                        style: {
+                            background: '#fef2f2',
+                            color: '#991b1b',
+                            border: '1px solid #fee2e2'
+                        }
+                    },
                     style: {
                         fontSize: "16px",
-                        padding: "16px 24px"
+                        maxWidth: '100%',
+                        padding: "16px 24px",
+                        borderRadius: "12px",
+                        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                        fontWeight: "500",
+                        backgroundColor: "white",
+                        border: "1px solid #e5e7eb"
                     },
+                    className: '',
+                    custom: {
+                        info: {
+                            icon: 'ℹ️',
+                            style: {
+                                background: '#eff6ff',
+                                color: '#1e40af',
+                                border: '1px solid #dbeafe'
+                            }
+                        },
+                        warning: {
+                            icon: '⚠️',
+                            style: {
+                                background: '#fffbeb',
+                                color: '#92400e',
+                                border: '1px solid #fef3c7'
+                            }
+                        }
+                    }
                 }}
             />
             
