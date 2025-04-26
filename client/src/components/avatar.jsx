@@ -40,7 +40,7 @@ const Avatar = ({ name, email }) => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex items-center gap-2 cursor-pointer p-1 hover:bg-gray-50 rounded-full transition-all duration-200"
             >
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-600 flex items-center justify-center shadow-sm overflow-hidden border-2 border-white">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-tr from-cyan-500 to-cyan-600 flex items-center justify-center shadow-sm overflow-hidden border-2 border-white">
                     <img
                         className="w-full h-full object-cover"
                         src={user_icon}
