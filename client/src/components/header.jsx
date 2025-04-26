@@ -1,23 +1,50 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Button from "./button"
 import { LogIn, Menu, UserPlus, X } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import Avatar from "./avatar"
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false)
+    const [scrolled, setScrolled] = useState(false)
     const isAuthenticated = localStorage.getItem("token") !== null
-    const pathname = window.location.pathname
+    const location = useLocation()
+    const pathname = location.pathname
     const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
     const name = user ? `${user.first_name} ${user.last_name}` : "Invité"
     const email = user ? user.email : "Invité"
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const offset = window.scrollY
+            if (offset > 10) {
+                setScrolled(true)
+            } else {
+                setScrolled(false)
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+    useEffect(() => {
+        // Ferme le menu mobile lors du changement de page
+        setMenuOpen(false)
+    }, [pathname])
+
     return (
-        <header className="w-full bg-white shadow-sm px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-1 sm:gap-2">
-                    <span className="text-lg sm:text-xl font-bold text-cyan-600 hover:text-cyan-700 transition duration-300">
-                        ⚽CoSportivo
+        <header className={`w-full backdrop-blur-sm sticky top-0 z-50 transition-all duration-300 
+            ${scrolled 
+                ? 'bg-white/95 shadow-md border-b border-gray-100' 
+                : 'bg-white/90 shadow-sm border-b border-gray-50'}`}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+                <Link to="/" className="flex items-center gap-1 sm:gap-2 group">
+                    <span className="text-lg sm:text-xl font-bold text-cyan-600 group-hover:text-cyan-700 transition-all duration-300 relative">
+                        ⚽ CoSportivo
+                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-500 group-hover:w-full transition-all duration-300"></span>
                     </span>
                 </Link>
 
@@ -27,7 +54,8 @@ const Header = () => {
                             <Link to="/login">
                                 <Button
                                     icon={<LogIn size={16} />}
-                                    className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-xl transition duration-300"
+                                    variant="outline"
+                                    size="md"
                                 >
                                     Se connecter
                                 </Button>
@@ -35,7 +63,8 @@ const Header = () => {
                             <Link to="/register">
                                 <Button
                                     icon={<UserPlus size={16} />}
-                                    className="bg-gray-600 hover:bg-gray-500 text-cyan-700 px-4 py-2 rounded-xl transition duration-300"
+                                    variant="primary"
+                                    size="md"
                                 >
                                     S'inscrire
                                 </Button>
@@ -51,24 +80,25 @@ const Header = () => {
                         <Avatar name={name} email={email} />
                     ) : pathname !== "/login" && pathname !== "/register" ? (
                         <button
-                            className="text-cyan-600 focus:outline-none"
+                            className="text-cyan-600 hover:text-cyan-700 focus:outline-none p-1.5 rounded-full hover:bg-cyan-50 transition-all active:bg-cyan-100"
                             onClick={() => setMenuOpen(!menuOpen)}
+                            aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
                         >
                             {menuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                     ) : null}
                 </div>
-
             </div>
 
             {menuOpen && (
-                <div className="md:hidden mt-4 flex flex-col items-start gap-3 px-2">
+                <div className="md:hidden py-4 px-4 border-t border-gray-100 shadow-inner bg-gray-50/70 flex flex-col items-center gap-3 animate-fadeIn">
                     {!isAuthenticated && pathname !== "/login" && pathname !== "/register" ? (
                         <>
                             <Link to="/login" className="w-full">
                                 <Button
                                     icon={<LogIn size={16} />}
-                                    className="w-full bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-xl"
+                                    variant="outline"
+                                    fullWidth
                                 >
                                     Se connecter
                                 </Button>
@@ -76,14 +106,13 @@ const Header = () => {
                             <Link to="/register" className="w-full">
                                 <Button
                                     icon={<UserPlus size={16} />}
-                                    className="w-full bg-gray-600 hover:bg-gray-500 text-cyan-700 px-4 py-2 rounded-xl"
+                                    variant="primary"
+                                    fullWidth
                                 >
                                     S'inscrire
                                 </Button>
                             </Link>
                         </>
-                    ) : pathname !== "/login" && pathname !== "/register" ? (
-                        <Avatar name={name} email={email} />
                     ) : null}
                 </div>
             )}
