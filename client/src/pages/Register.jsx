@@ -79,65 +79,100 @@ const Register = () => {
     }
 
     return (
-        <div className="h-screen flex flex-col bg-gray-50">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
             <Header />
+            <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-100 rounded-full opacity-20 z-0"></div>
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
 
             {
                 isSubmitting ? (
-                    <div className="h-screen flex items-center justify-center bg-gray-100">
+                    <div className="flex-1 flex items-center justify-center">
                         <Loader />
                     </div>
                 ) : (
-                    <div className="flex-1 flex items-center justify-center px-4">
+                    <div className="flex-1 flex items-center justify-center px-4 py-8 md:py-12 z-10">
                         <form
                             onSubmit={handleSubmit(handleRegister)}
-                            className="w-full max-w-3xl bg-white p-10 rounded-2xl shadow-lg space-y-8"
+                            className="w-full max-w-3xl bg-white p-6 md:p-10 rounded-2xl shadow-lg space-y-6 border border-gray-100"
                         >
-                            <h2 className="text-3xl font-semibold text-center text-cyan-600">
-                                Créer un compte
+                            <h2 className="text-2xl sm:text-3xl font-bold text-center text-cyan-600 relative">
+                                <span className="relative inline-block">
+                                    Rejoindre la communauté
+                                    <span className="absolute bottom-0 left-0 w-full h-[4px] bg-cyan-200 opacity-50 rounded-full"></span>
+                                </span>
                             </h2>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                                 <div>
-                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
                                         Prénom
                                     </label>
-                                    <input {...register("first_name")} type="text" className="input" required />
+                                    <input 
+                                        {...register("first_name")} 
+                                        type="text" 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
+                                        required 
+                                    />
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
                                         Nom
                                     </label>
-                                    <input {...register("last_name")} type="text" className="input" required />
+                                    <input 
+                                        {...register("last_name")} 
+                                        type="text" 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
+                                        required 
+                                    />
                                 </div>
 
                                 <div className="md:col-span-2">
-                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
                                         Email
                                     </label>
-                                    <input {...register("email")} type="email" className="input" required />
+                                    <input 
+                                        {...register("email")} 
+                                        type="email" 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
+                                        placeholder="name@gmail.com"
+                                        required 
+                                    />
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
                                         Mot de passe
                                     </label>
-                                    <input {...register("password")} type="password" className="input" required />
+                                    <input 
+                                        {...register("password")} 
+                                        type="password" 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
+                                        required 
+                                    />
                                 </div>
 
                                 <div>
-                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
                                         Confirmation du mot de passe
                                     </label>
-                                    <input {...register("confirmation_password")} type="password" className="input" required />
+                                    <input 
+                                        {...register("confirmation_password")} 
+                                        type="password" 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
+                                        required 
+                                    />
                                 </div>
 
                                 <div className="md:col-span-2">
-                                    <label className="block mb-1 text-sm font-medium text-gray-700">
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
                                         Équipe favorite
                                     </label>
-                                    <select {...register("id_favourite_team")} className="input" required>
+                                    <select 
+                                        {...register("id_favourite_team")} 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all bg-white"
+                                        required
+                                    >
                                         <option value="">Sélectionnez une équipe</option>
                                         {teams.map((team) => (
                                             <option key={team.id} value={team.id}>
@@ -148,12 +183,16 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                                <Link to="/login" className="text-sm text-cyan-600 hover:underline text-left w-full md:w-auto">
-                                    Déjà un compte ?
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-2">
+                                <Link to="/login" className="text-cyan-600 hover:text-cyan-800 hover:underline transition-colors font-medium">
+                                    Déjà un compte ? Connectez-vous
                                 </Link>
 
-                                <Button type="submit" icon={<LogIn size={16} />} className="w-full md:w-auto">
+                                <Button 
+                                    type="submit" 
+                                    icon={<LogIn size={18} />} 
+                                    className="w-full md:w-auto py-3 px-8 rounded-xl shadow-md hover:shadow-lg transition-all text-base font-medium"
+                                >
                                     S'inscrire
                                 </Button>
                             </div>
