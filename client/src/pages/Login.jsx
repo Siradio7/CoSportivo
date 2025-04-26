@@ -48,50 +48,59 @@ const Login = () => {
     }
 
     return (
-        <div className="h-screen flex flex-col bg-gray-100">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
             <Header />
+            <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-100 rounded-full opacity-20 z-0"></div>
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
 
             {
                 isSubmitting ? (
-                    <div className="h-screen flex items-center justify-center bg-gray-100">
+                    <div className="flex-1 flex items-center justify-center">
                         <Loader />
                     </div>
                 ) : (
-                    <div className="flex-1 flex items-center justify-center px-4">
+                    <div className="flex-1 flex items-center justify-center px-4 py-8 md:py-12 z-10">
                         <form
                             onSubmit={handleSubmit(handleLogin)}
-                            className="w-full max-w-md bg-white px-8 py-10 rounded-2xl shadow-lg space-y-6"
+                            className="w-full max-w-md bg-white px-8 py-10 rounded-2xl shadow-lg space-y-6 transform transition-all hover:shadow-xl border border-gray-100"
                         >
-                            <h2 className="text-3xl font-semibold text-center text-cyan-600">Connexion</h2>
+                            <h2 className="text-3xl font-bold text-center text-cyan-600 mb-6">Connexion</h2>
 
                             <div>
-                                <label className="block mb-1 text-sm font-medium text-gray-700">Email</label>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">Email</label>
                                 <input
                                     {...register("email")}
                                     type="email"
-                                    className="input"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                                     placeholder="name@gmail.com"
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label className="block mb-1 text-sm font-medium text-gray-700">Mot de passe</label>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">Mot de passe</label>
                                 <input
                                     {...register("password")}
                                     type="password"
-                                    className="input"
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
                                     required
                                 />
                             </div>
 
                             <div className="flex justify-between items-center text-sm">
-                                <Link to="/register" className="text-cyan-600 hover:underline">
+                                <Link to="/register" className="text-cyan-600 hover:text-cyan-800 hover:underline transition-colors">
                                     Pas de compte ?
                                 </Link>
+                                <span className="text-gray-500 hover:text-cyan-600 cursor-pointer transition-colors">
+                                    Mot de passe oublié ?
+                                </span>
                             </div>
 
-                            <Button type="submit" icon={<LogIn size={16} />} className="w-full">
+                            <Button 
+                                type="submit" 
+                                icon={<LogIn size={16} />} 
+                                className="w-full py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-base font-medium mt-4"
+                            >
                                 Se connecter
                             </Button>
                         </form>
