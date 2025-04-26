@@ -11,10 +11,6 @@ const CURRENT_DATE = new Date().toISOString().split('T')[0]
 const END_DATE = new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0]
 const ALL_TEAMS = []
 const competitions = [
-    2021, // Premier League
-    2002, // Bundesliga
-    2014, // La Liga
-    2019, // Serie A
     2015 // Ligue 1
 ]
 
