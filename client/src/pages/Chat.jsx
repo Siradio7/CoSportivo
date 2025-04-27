@@ -174,10 +174,10 @@ const Chat = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col">
+        <div className="h-screen flex flex-col overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
             <Header />
             
-            <div className="flex-1 max-w-4xl mx-auto w-full p-4 flex flex-col">
+            <div className="flex-1 max-w-4xl mx-auto w-full p-4 flex flex-col overflow-hidden">
                 {loading ? (
                     <div className="text-center my-8">
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-600 mx-auto"></div>
@@ -192,8 +192,8 @@ const Chat = () => {
                         {error}
                     </motion.div>
                 ) : (
-                    <>
-                        <div className="bg-white rounded-t-2xl p-3 sm:p-4 shadow-md border border-gray-200">
+                    <div className="flex flex-col h-full overflow-hidden">
+                        <div className="bg-white rounded-t-2xl p-3 sm:p-4 shadow-md border border-gray-200 flex-shrink-0">
                             <div className="flex justify-between items-center mb-2">
                                 <button 
                                     onClick={handleGoBack}
@@ -228,8 +228,7 @@ const Chat = () => {
                         
                         <div 
                             ref={chatContainerRef}
-                            className="flex-1 bg-gradient-to-b from-gray-50 to-gray-100 p-2 sm:p-4 overflow-y-auto h-full min-h-0 flex flex-col shadow-inner"
-                            style={{ height: 'calc(100vh - 280px)' }}
+                            className="flex-1 bg-gradient-to-b from-gray-50 to-gray-100 p-2 sm:p-4 overflow-y-auto flex flex-col shadow-inner"
                         >
                             {messages.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center h-full text-center my-12 text-gray-500">
@@ -304,7 +303,7 @@ const Chat = () => {
                         
                         <form 
                             onSubmit={sendMessage}
-                            className="bg-white rounded-b-2xl shadow-md p-2 sm:p-4 flex items-center gap-2 border border-gray-200 border-t-0"
+                            className="bg-white rounded-b-2xl shadow-md p-2 sm:p-4 flex items-center gap-2 border border-gray-200 border-t-0 flex-shrink-0"
                         >
                             <input
                                 type="text"
@@ -326,7 +325,7 @@ const Chat = () => {
                                 <Send size={18} className="sm:w-5 sm:h-5" />
                             </button>
                         </form>
-                    </>
+                    </div>
                 )}
             </div>
         </div>
