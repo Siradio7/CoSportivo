@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom"
 import Header from "../components/header"
 import Button from "../components/button"
 import { motion } from "framer-motion"
-import { UserPlus, MessageSquare } from "lucide-react"
+import { UserPlus, MessageSquare, MapPin } from "lucide-react"
 
 const Trips = () => {
     const { id } = useParams()
@@ -79,12 +79,25 @@ const Trips = () => {
             <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
             
             <div className="max-w-4xl mx-auto p-4 md:p-6 relative z-10">
-                <h2 className="text-2xl sm:text-3xl font-bold text-center text-cyan-700 mb-8">
-                    <span className="relative inline-block">
-                        Covoiturages disponibles 🚗
-                        <span className="absolute bottom-0 left-0 w-full h-[4px] bg-cyan-200 opacity-50 rounded-full"></span>
-                    </span>
-                </h2>
+                <div className="text-center mb-6">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-cyan-700 inline-block">
+                        <span className="relative">
+                            Covoiturages disponibles 🚗
+                            <span className="absolute bottom-0 left-0 w-full h-[4px] bg-cyan-200 opacity-50 rounded-full"></span>
+                        </span>
+                    </h2>
+                </div>
+
+                <div className="flex justify-end mb-6">
+                    <Link to={`/create-trip/${id}`}>
+                        <Button
+                            className="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+                            icon={<MapPin size={16} />}
+                        >
+                            Proposer un trajet
+                        </Button>
+                    </Link>
+                </div>
 
                 {loading && (
                     <div className="text-center py-10">
@@ -114,15 +127,8 @@ const Trips = () => {
                             Aucun trajet disponible pour ce match
                         </h3>
                         <p className="text-gray-500 mb-6">
-                            Et si tu étais le premier à en proposer un ? 🚗
+                            Sois le premier à proposer un trajet ! 🚗
                         </p>
-                        <Link to={`/create-trip/${id}`}>
-                            <Button
-                                className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all"
-                            >
-                                Proposer un trajet
-                            </Button>
-                        </Link>
                     </div>
                 )}
 
