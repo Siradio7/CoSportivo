@@ -49,9 +49,9 @@ const Home = () => {
                     transition={{ delay: 0.6, duration: 0.6 }}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 sm:mb-16"
                 >
-                    <Link to="/trips">
+                    <Link to="/matches">
                         <Button className="w-64 rounded-xl transition-all hover:scale-105 duration-200 shadow-md hover:shadow-lg py-3 text-base font-medium" variant="primary">
-                            Voir les covoiturages
+                            Voir les matchs
                         </Button>
                     </Link>
 
