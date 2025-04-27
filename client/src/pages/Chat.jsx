@@ -62,11 +62,24 @@ const Chat = () => {
             socket.on("receiveMessage", (data) => {
                 setMessages((prev) => [...prev, data])
             })
+            
+            socket.on("userJoined", (message) => {
+                toast.success(message, {
+                    icon: "👋",
+                    style: {
+                        borderRadius: '10px',
+                        background: '#E9F7FF',
+                        color: '#0284C7',
+                    },
+                    duration: 3000
+                })
+            })
         }
 
         return () => {
             socket.off("loadMessages")
             socket.off("receiveMessage")
+            socket.off("userJoined")
             disconnectSocket()
         }
     }, [tripId, socket])

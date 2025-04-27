@@ -8,6 +8,7 @@ const setupChat = (io) => {
                 const messages = await dbQuery("SELECT * FROM messages WHERE trip_id = ?", [tripId])
 
                 socket.emit("loadMessages", messages)
+                socket.broadcast.to(tripId).emit("userJoined", "Un utilisateur a rejoint la conversation")
                 socket.join(tripId)
             } catch (err) {
                 socket.emit("error", { message: "Erreur lors de la récupération des messages" })
