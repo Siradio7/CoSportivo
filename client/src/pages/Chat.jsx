@@ -20,8 +20,8 @@ const Chat = () => {
     const socket = getSocket()
     const user = JSON.parse(localStorage.getItem("user"))
     const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
-    
     const returnPath = location.state?.from || "/my-trips"
+    const messagesLoadedRef = useRef(false)
 
     useEffect(() => {
         const fetchTripData = async () => {
@@ -43,8 +43,6 @@ const Chat = () => {
             } catch (err) {
                 setError("Erreur lors du chargement des informations du trajet")
                 toast.error("Erreur de chargement")
-            } finally {
-                setLoading(false)
             }
         }
 
@@ -52,15 +50,47 @@ const Chat = () => {
     }, [tripId, API_URL])
 
     useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const response = await fetch(`${API_URL}/messages/${tripId}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+
+                if (!response.ok) {
+                    throw new Error("Impossible de récupérer les messages")
+                }
+
+                const data = await response.json()
+                setMessages(data)
+                messagesLoadedRef.current = true
+                
+                if (trip !== null) {
+                    setLoading(false)
+                }
+            } catch (err) {
+                console.error("Erreur lors du chargement des messages:", err)
+                setError("Erreur lors du chargement des messages")
+                setLoading(false)
+            }
+        }
+
+        if (tripId) {
+            fetchMessages()
+        }
+    }, [tripId, API_URL, trip])
+
+    useEffect(() => {
         if (tripId) {
             socket.emit("joinTrip", { tripId })
 
-            socket.on("loadMessages", (loadedMessages) => {
-                setMessages(loadedMessages)
-            })
-
             socket.on("receiveMessage", (data) => {
-                setMessages((prev) => [...prev, data])
+                if (data && data.message) {
+                    setMessages((prev) => [...prev, data])
+                }
             })
             
             socket.on("userJoined", (message) => {
@@ -77,7 +107,6 @@ const Chat = () => {
         }
 
         return () => {
-            socket.off("loadMessages")
             socket.off("receiveMessage")
             socket.off("userJoined")
             disconnectSocket()
