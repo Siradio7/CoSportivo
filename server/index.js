@@ -26,7 +26,7 @@ app.use(express.json())
 
 app.use("/auth", authRoutes)
 app.use("/api", footballDataRoutes)
-app.use("/users", checkToken, sanitizeInput, usersRoutes)
+app.use("/users", sanitizeInput, usersRoutes)
 app.use("/trips", checkToken, sanitizeInput, tripsRoutes)
 app.use("/trip-passengers", checkToken, sanitizeInput, tripPassengersRoutes)
 app.use("/messages", checkToken, sanitizeInput, messagesRoutes)

@@ -91,9 +91,9 @@ const Login = () => {
                                 <Link to="/register" className="text-cyan-600 hover:text-cyan-800 hover:underline transition-colors">
                                     Pas de compte ?
                                 </Link>
-                                <span className="text-gray-500 hover:text-cyan-600 cursor-pointer transition-colors">
+                                <Link to={"/change-password"} className="text-gray-500 hover:text-cyan-600 cursor-pointer transition-colors">
                                     Mot de passe oublié ?
-                                </span>
+                                </Link>
                             </div>
 
                             <Button 

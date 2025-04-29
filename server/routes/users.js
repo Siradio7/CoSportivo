@@ -6,6 +6,6 @@ const router = Router()
 router.get('/:id', getUserById)
 router.patch('/:id', updateUser)
 router.delete('/:id', deleteUser)
-router.patch('/:id/password', updatePassword)
+router.post('/change-password', updatePassword)
 
 export default router

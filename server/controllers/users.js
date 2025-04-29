@@ -55,13 +55,13 @@ const deleteUser = (req, res) => {
 }
 
 const updatePassword = async (req, res) => {
-    const { id } = req.params
-    const { password } = req.body
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const { email, new_password } = req.body
+    console.log(req.body)
+    const hashedPassword = await bcrypt.hash(new_password, 10)
 
-    const request = "UPDATE users SET password = ? WHERE id = ?"
+    const request = "UPDATE users SET password = ? WHERE email = ?"
 
-    db.query(request, [hashedPassword, id], (err, result) => {
+    db.query(request, [hashedPassword, email], (err, result) => {
         if (err) {
             return res.status(500).json({ message: "Erreur lors de la mise à jour du mot de passe" })
         }

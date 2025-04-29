@@ -14,6 +14,7 @@ import Settings from "./pages/Settings"
 import MyTrips from "./pages/MyTrips"
 import Chat from "./pages/Chat"
 import JoinTrip from "./pages/JoinTrip"
+import ChangePassword from "./pages/ChangePassword"
 
 
 const App = () => {
@@ -79,6 +80,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/matches" element={<PrivateRoute element={<Matches />} />} />
                 <Route path="/trips/:id" element={<PrivateRoute element={<Trips />} />} />
                 <Route path="/my-trips" element={<PrivateRoute element={<MyTrips />} />} />
