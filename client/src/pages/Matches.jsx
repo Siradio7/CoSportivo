@@ -83,10 +83,10 @@ const Matches = () => {
     }, [matches, filter, searchQuery])
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 pb-12">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
             <Header />
 
-            <div className="max-w-6xl mx-auto p-6">
+            <div className="max-w-6xl mx-auto p-6 z-10">
                 <div className="text-center mb-10 bg-white bg-opacity-70 backdrop-blur-sm p-6 rounded-2xl shadow-md transform hover:scale-[1.01] transition duration-300">
                     <h2 className="text-3xl font-extrabold text-cyan-800 mb-4 relative inline-block">
                         Matchs à venir ⚽
@@ -159,7 +159,7 @@ const Matches = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {filteredMatches.map((match, index) => (
                                     <div key={match.id} 
-                                        className="transform transition duration-500 hover:scale-[1.02]"
+                                        className="transform transition duration-500 hover:scale-[1.02] z-10"
                                         style={{ 
                                             opacity: 0,
                                             animation: `fadeIn 0.6s ease-out forwards ${index * 0.1}s`
@@ -205,6 +205,8 @@ const Matches = () => {
                     }
                 `}
             </style>
+            <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-100 rounded-full opacity-20 z-0"></div>
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
         </div>
     )
 }
