@@ -155,10 +155,10 @@ const Settings = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
             <Header />
 
-            <main className="container mx-auto px-4 py-10">
+            <main className="container mx-auto z-10 px-4 py-10">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -450,6 +450,9 @@ const Settings = () => {
                     </AnimatePresence>
                 </motion.div>
             </main>
+
+            <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-100 rounded-full opacity-20 z-0"></div>
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
         </div>
     )
 }
