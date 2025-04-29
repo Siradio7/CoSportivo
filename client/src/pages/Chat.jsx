@@ -174,7 +174,7 @@ const Chat = () => {
     }
 
     return (
-        <div className="h-screen flex flex-col overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+        <div className="h-screen flex flex-col overflow-hidden bg-gradient-to-br from-cyan-50 to-gray-100">
             <Header />
             
             <div className="flex-1 max-w-4xl mx-auto w-full p-4 flex flex-col overflow-hidden">
