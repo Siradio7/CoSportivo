@@ -123,10 +123,10 @@ const MyTrips = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
             <Header />
 
-            <div className="max-w-4xl mx-auto p-6">
+            <div className="max-w-4xl z-10 mx-auto p-6">
                 <h2 className="text-4xl font-bold text-center text-cyan-700 mb-6">
                     Mes trajets 🚗
                 </h2>
@@ -347,6 +347,9 @@ const MyTrips = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-100 rounded-full opacity-20 z-0"></div>
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
         </div>
     )
 }
