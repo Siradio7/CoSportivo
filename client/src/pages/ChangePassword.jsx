@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import Header from "../components/header"
 import Button from "../components/button"
@@ -13,12 +13,20 @@ const ChangePassword = () => {
     const [showNewPassword, setShowNewPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const navigate = useNavigate()
+    
     const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    
+    const { 
+        register, 
+        handleSubmit, 
+        watch, 
+        formState: { errors } 
+    } = useForm({
         mode: "onTouched"
     })
     
     const newPassword = watch("newPassword", "")
+
     const onSubmit = async (data) => {
         setIsSubmitting(true)
 
@@ -56,14 +64,14 @@ const ChangePassword = () => {
     const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword)
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
             <Header />
             <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-100 rounded-full opacity-20 z-0"></div>
             <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
             
-            <div className="max-w-2xl mx-auto p-4 md:p-6 relative z-10">
+            <div className="flex-1 flex items-center justify-center px-4 py-8 md:py-12 z-10">
                 {isSubmitting ? (
-                    <div className="flex-1 flex items-center justify-center mt-20">
+                    <div className="flex-1 flex items-center justify-center">
                         <Loader />
                     </div>
                 ) : (
@@ -71,7 +79,7 @@ const ChangePassword = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100"
+                        className="w-full max-w-md bg-white px-8 py-10 rounded-2xl shadow-lg space-y-6 transform transition-all hover:shadow-xl border border-gray-100"
                     >
                         <div className="flex justify-center mb-6">
                             <div className="w-16 h-16 rounded-full bg-cyan-100 flex items-center justify-center">
@@ -79,7 +87,7 @@ const ChangePassword = () => {
                             </div>
                         </div>
                         
-                        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
+                        <h1 className="text-2xl font-bold text-center text-cyan-600 mb-6">
                             Réinitialiser votre mot de passe
                         </h1>
                         
@@ -92,7 +100,7 @@ const ChangePassword = () => {
                                     <input
                                         id="email"
                                         type="email"
-                                        className={`w-full px-4 py-3 rounded-xl border ${errors.email ? "border-red-300 focus:ring-red-500" : "border-gray-300 focus:ring-cyan-500"} focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                                        className={`w-full px-4 py-3 rounded-xl border ${errors.email ? "border-red-300 focus:ring-red-500" : "border-gray-300 focus:ring-cyan-500"} focus:outline-none focus:ring-2 focus:border-transparent transition-all pl-10`}
                                         {...register("email", { 
                                             required: "Ce champ est requis",
                                             pattern: {
@@ -102,7 +110,7 @@ const ChangePassword = () => {
                                         })}
                                         placeholder="nom@exemple.com"
                                     />
-                                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                                         <Mail size={18} />
                                     </div>
                                 </div>
@@ -119,7 +127,7 @@ const ChangePassword = () => {
                                     <input
                                         id="newPassword"
                                         type={showNewPassword ? "text" : "password"}
-                                        className={`w-full px-4 py-3 rounded-xl border ${errors.newPassword ? "border-red-300 focus:ring-red-500" : "border-gray-300 focus:ring-cyan-500"} focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                                        className={`w-full px-4 py-3 rounded-xl border ${errors.newPassword ? "border-red-300 focus:ring-red-500" : "border-gray-300 focus:ring-cyan-500"} focus:outline-none focus:ring-2 focus:border-transparent transition-all pl-10`}
                                         {...register("newPassword", { 
                                             required: "Ce champ est requis",
                                             minLength: {
@@ -128,6 +136,9 @@ const ChangePassword = () => {
                                             }
                                         })}
                                     />
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                        <Lock size={18} />
+                                    </div>
                                     <button
                                         type="button"
                                         onClick={toggleNewPasswordVisibility}
@@ -153,12 +164,15 @@ const ChangePassword = () => {
                                     <input
                                         id="confirmPassword"
                                         type={showConfirmPassword ? "text" : "password"}
-                                        className={`w-full px-4 py-3 rounded-xl border ${errors.confirmPassword ? "border-red-300 focus:ring-red-500" : "border-gray-300 focus:ring-cyan-500"} focus:outline-none focus:ring-2 focus:border-transparent transition-all`}
+                                        className={`w-full px-4 py-3 rounded-xl border ${errors.confirmPassword ? "border-red-300 focus:ring-red-500" : "border-gray-300 focus:ring-cyan-500"} focus:outline-none focus:ring-2 focus:border-transparent transition-all pl-10`}
                                         {...register("confirmPassword", { 
                                             required: "Ce champ est requis",
                                             validate: value => value === newPassword || "Les mots de passe ne correspondent pas"
                                         })}
                                     />
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                        <Lock size={18} />
+                                    </div>
                                     <button
                                         type="button"
                                         onClick={toggleConfirmPasswordVisibility}
@@ -181,13 +195,11 @@ const ChangePassword = () => {
                                     Réinitialiser mon mot de passe
                                 </Button>
                                 
-                                <button
-                                    type="button"
-                                    onClick={() => navigate("/login")}
-                                    className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all text-base font-medium"
+                                <Link to={"/login"}
+                                    className="w-full py-3 bg-gray-100 text-center hover:bg-gray-200 text-gray-700 rounded-xl transition-all text-base font-medium"
                                 >
                                     Retour à la connexion
-                                </button>
+                                </Link>
                             </div>
                         </form>
                     </motion.div>

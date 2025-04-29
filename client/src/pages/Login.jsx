@@ -1,20 +1,18 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { LogIn } from "lucide-react"
-import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
-import Loader from "../components/loader"
-
 import Header from "../components/header"
 import Button from "../components/button"
-
-const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
+import Loader from "../components/loader"
+import { LogIn, Mail, Lock, Eye, EyeOff } from "lucide-react"
+import toast from "react-hot-toast"
 
 const Login = () => {
-
-    const { register, handleSubmit, reset } = useForm()
-    const navigate = useNavigate()
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+    const { register, handleSubmit, formState: { errors } } = useForm()
+    const navigate = useNavigate()
+    const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
 
     const handleLogin = async (data) => {
         setIsSubmitting(true)
@@ -23,19 +21,16 @@ const Login = () => {
             const response = await fetch(`${API_URL}/auth/login`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
             })
 
-            setIsSubmitting(false)
+            const result = await response.json()
 
             if (response.ok) {
-                reset()
-
-                const res = await response.json()
-                localStorage.setItem("token", res.token)
-                localStorage.setItem("user", JSON.stringify(res.user))
+                localStorage.setItem("token", result.token)
+                localStorage.setItem("user", JSON.stringify(result.user))
                 toast.success("Connexion réussie !")
                 navigate("/matches")
             } else {
@@ -44,8 +39,12 @@ const Login = () => {
         } catch (error) {
             toast.error("Une erreur s'est produite lors de la connexion")
             console.error("Error during login:", error)
+        } finally {
+            setIsSubmitting(false)
         }
     }
+
+    const togglePasswordVisibility = () => setShowPassword(!showPassword)
 
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
@@ -68,23 +67,51 @@ const Login = () => {
 
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-700">Email</label>
-                                <input
-                                    {...register("email")}
-                                    type="email"
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
-                                    placeholder="name@gmail.com"
-                                    required
-                                />
+                                <div className="relative">
+                                    <input
+                                        {...register("email", { 
+                                            required: "L'email est requis",
+                                            pattern: {
+                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                message: "Adresse email invalide"
+                                            }
+                                        })}
+                                        type="email"
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all pl-10"
+                                        placeholder="name@gmail.com"
+                                    />
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                        <Mail size={18} />
+                                    </div>
+                                </div>
+                                {errors.email && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                                )}
                             </div>
 
                             <div>
                                 <label className="block mb-2 text-sm font-medium text-gray-700">Mot de passe</label>
-                                <input
-                                    {...register("password")}
-                                    type="password"
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
-                                    required
-                                />
+                                <div className="relative">
+                                    <input
+                                        {...register("password", { required: "Le mot de passe est requis" })}
+                                        type={showPassword ? "text" : "password"}
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all pl-10"
+                                        required
+                                    />
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                        <Lock size={18} />
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={togglePasswordVisibility}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                    >
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
+                                {errors.password && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                                )}
                             </div>
 
                             <div className="flex justify-between items-center text-sm">

@@ -1,82 +1,59 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { LogIn } from "lucide-react"
-import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
-import Loader from "../components/loader"
-
 import Header from "../components/header"
 import Button from "../components/button"
-
-const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
+import Loader from "../components/loader"
+import { User, Mail, Lock, Eye, EyeOff, UserPlus } from "lucide-react"
+import toast from "react-hot-toast"
 
 const Register = () => {
-    const [teams, setTeams] = useState([])
-    const { register, handleSubmit, reset } = useForm()
-    const navigate = useNavigate()
     const [isSubmitting, setIsSubmitting] = useState(false)
-
-    useEffect(() => {
-        const fetchTeams = async () => {
-            try {
-                const response = await fetch(`${API_URL}/api/teams`)
-                const data = await response.json()
-
-                setTeams(data)
-            } catch (error) {
-                console.error("Erreur lors du chargement des équipes :", error)
-                setTimeout(fetchTeams, 2000)
-            }
-        }
-
-        fetchTeams()
-    }, [])
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const navigate = useNavigate()
+    const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
+    
+    const password = watch("password", "")
 
     const handleRegister = async (data) => {
-        if (data.password !== data.confirmation_password) {
+        if (data.password !== data.confirm_password) {
             toast.error("Les mots de passe ne correspondent pas")
-            return
-        }
-
-        if (!data.id_favourite_team) {
-            toast.error("Veuillez sélectionner une équipe favorite")
-            return
-        }
-
-        if (!data.first_name || !data.last_name || !data.email || !data.password) {
-            toast.error("Veuillez remplir tous les champs")
             return
         }
 
         setIsSubmitting(true)
 
         try {
+            const { confirm_password, ...formData } = data
+
             const response = await fetch(`${API_URL}/auth/register`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json"
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(formData)
             })
 
-            const res = await response.json()
-            setIsSubmitting(false)
+            const result = await response.json()
 
             if (response.ok) {
-                reset()
-
-                toast.success("Inscription réussie")
-                setTimeout(() => {
-                    navigate("/login")
-                }, 1000)
+                toast.success("Compte créé avec succès !")
+                navigate("/login")
             } else {
-                toast.error(res.message)
+                toast.error(result.message || "Une erreur s'est produite lors de l'inscription")
             }
         } catch (error) {
-            toast.error("Erreur lors de l'inscription")
+            toast.error("Une erreur s'est produite lors de l'inscription")
             console.error("Error during registration:", error)
+        } finally {
+            setIsSubmitting(false)
         }
     }
+
+    const togglePasswordVisibility = () => setShowPassword(!showPassword)
+    const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword)
 
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
@@ -93,109 +70,142 @@ const Register = () => {
                     <div className="flex-1 flex items-center justify-center px-4 py-8 md:py-12 z-10">
                         <form
                             onSubmit={handleSubmit(handleRegister)}
-                            className="w-full max-w-3xl bg-white p-6 md:p-10 rounded-2xl shadow-lg space-y-6 border border-gray-100"
+                            className="w-full max-w-md bg-white px-8 py-10 rounded-2xl shadow-lg space-y-6 transform transition-all hover:shadow-xl border border-gray-100"
                         >
-                            <h2 className="text-2xl sm:text-3xl font-bold text-center text-cyan-600 relative">
-                                <span className="relative inline-block">
-                                    Rejoindre la communauté
-                                    <span className="absolute bottom-0 left-0 w-full h-[4px] bg-cyan-200 opacity-50 rounded-full"></span>
-                                </span>
-                            </h2>
+                            <h2 className="text-3xl font-bold text-center text-cyan-600 mb-6">Inscription</h2>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                            <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">
-                                        Prénom
-                                    </label>
-                                    <input 
-                                        {...register("first_name")} 
-                                        type="text" 
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
-                                        required 
-                                    />
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Prénom</label>
+                                    <div className="relative">
+                                        <input
+                                            {...register("first_name", { required: "Le prénom est requis" })}
+                                            type="text"
+                                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all pl-10"
+                                        />
+                                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                            <User size={18} />
+                                        </div>
+                                    </div>
+                                    {errors.first_name && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.first_name.message}</p>
+                                    )}
                                 </div>
 
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">
-                                        Nom
-                                    </label>
-                                    <input 
-                                        {...register("last_name")} 
-                                        type="text" 
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
-                                        required 
-                                    />
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">Nom</label>
+                                    <div className="relative">
+                                        <input
+                                            {...register("last_name", { required: "Le nom est requis" })}
+                                            type="text"
+                                            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all pl-10"
+                                        />
+                                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                            <User size={18} />
+                                        </div>
+                                    </div>
+                                    {errors.last_name && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.last_name.message}</p>
+                                    )}
                                 </div>
+                            </div>
 
-                                <div className="md:col-span-2">
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">
-                                        Email
-                                    </label>
-                                    <input 
-                                        {...register("email")} 
-                                        type="email" 
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">Email</label>
+                                <div className="relative">
+                                    <input
+                                        {...register("email", { 
+                                            required: "L'email est requis",
+                                            pattern: {
+                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                message: "Adresse email invalide"
+                                            }
+                                        })}
+                                        type="email"
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all pl-10"
                                         placeholder="name@gmail.com"
-                                        required 
                                     />
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                        <Mail size={18} />
+                                    </div>
                                 </div>
+                                {errors.email && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                                )}
+                            </div>
 
-                                <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">
-                                        Mot de passe
-                                    </label>
-                                    <input 
-                                        {...register("password")} 
-                                        type="password" 
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
-                                        required 
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">Mot de passe</label>
+                                <div className="relative">
+                                    <input
+                                        {...register("password", { 
+                                            required: "Le mot de passe est requis",
+                                            minLength: {
+                                                value: 8,
+                                                message: "Le mot de passe doit contenir au moins 8 caractères"
+                                            }
+                                        })}
+                                        type={showPassword ? "text" : "password"}
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all pl-10"
                                     />
-                                </div>
-
-                                <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">
-                                        Confirmation du mot de passe
-                                    </label>
-                                    <input 
-                                        {...register("confirmation_password")} 
-                                        type="password" 
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
-                                        required 
-                                    />
-                                </div>
-
-                                <div className="md:col-span-2">
-                                    <label className="block mb-2 text-sm font-medium text-gray-700">
-                                        Équipe favorite
-                                    </label>
-                                    <select 
-                                        {...register("id_favourite_team")} 
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all bg-white"
-                                        required
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                        <Lock size={18} />
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={togglePasswordVisibility}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                                     >
-                                        <option value="">Sélectionnez une équipe</option>
-                                        {teams.map((team) => (
-                                            <option key={team.id} value={team.id}>
-                                                {team.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
                                 </div>
+                                {errors.password ? (
+                                    <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                                ) : (
+                                    <p className="text-xs text-gray-500 mt-1">Minimum 8 caractères</p>
+                                )}
                             </div>
 
-                            <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-2">
-                                <Link to="/login" className="text-cyan-600 hover:text-cyan-800 hover:underline transition-colors font-medium">
-                                    Déjà un compte ? Connectez-vous
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+                                <div className="relative">
+                                    <input
+                                        {...register("confirm_password", { 
+                                            required: "La confirmation du mot de passe est requise",
+                                            validate: value => value === password || "Les mots de passe ne correspondent pas"
+                                        })}
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all pl-10"
+                                    />
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                        <Lock size={18} />
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={toggleConfirmPasswordVisibility}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                    >
+                                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
+                                {errors.confirm_password && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.confirm_password.message}</p>
+                                )}
+                            </div>
+
+                            <div className="flex justify-center">
+                                <Link to="/login" className="text-cyan-600 hover:text-cyan-800 hover:underline transition-colors text-sm">
+                                    Déjà un compte ? Se connecter
                                 </Link>
-
-                                <Button 
-                                    type="submit" 
-                                    icon={<LogIn size={18} />} 
-                                    className="w-full md:w-auto py-3 px-8 rounded-xl shadow-md hover:shadow-lg transition-all text-base font-medium"
-                                >
-                                    S'inscrire
-                                </Button>
                             </div>
+
+                            <Button 
+                                type="submit" 
+                                icon={<UserPlus size={16} />} 
+                                className="w-full py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-base font-medium mt-4"
+                            >
+                                S'inscrire
+                            </Button>
                         </form>
                     </div>
                 )
