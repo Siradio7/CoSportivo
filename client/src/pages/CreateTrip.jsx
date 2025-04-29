@@ -59,14 +59,14 @@ const CreateTrip = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
             <Header />
 
             <motion.main 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="max-w-2xl mx-auto mt-10 mb-10 bg-white p-8 rounded-2xl shadow-xl"
+                className="max-w-2xl z-10 mx-auto mt-10 mb-10 bg-white p-8 rounded-2xl shadow-xl"
             >
                 <div className="text-center mb-8">
                     <motion.div
@@ -220,6 +220,9 @@ const CreateTrip = () => {
                     </motion.div>
                 </motion.form>
             </motion.main>
+
+            <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-100 rounded-full opacity-20 z-0"></div>
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
         </div>
     )
 }
