@@ -39,7 +39,6 @@ const JoinTrip = () => {
                 const data = await response.json()
                 setTrip(data)
                 
-                // Après avoir récupéré les détails du trajet, récupérer les informations du match
                 if (data.match_id) {
                     setLoadingMatch(true)
                     try {
@@ -112,7 +111,6 @@ const JoinTrip = () => {
         }
     }
     
-    // Formater la date du match
     const formatMatchDate = (utcDate) => {
         if (!utcDate) return "Date non précisée"
         
@@ -127,10 +125,10 @@ const JoinTrip = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-cyan-50 to-gray-100 relative overflow-hidden">
             <Header />
 
-            <div className="max-w-3xl mx-auto p-6">
+            <div className="max-w-3xl z-10 mx-auto p-6">
                 <Link 
                     to={`/trips/${trip?.match_id || ""}`} 
                     className="flex items-center text-cyan-600 hover:text-cyan-700 transition mb-6"
@@ -162,7 +160,6 @@ const JoinTrip = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="bg-white rounded-2xl shadow-md p-6"
                     >
-                        {/* Information du match */}
                         {loadingMatch ? (
                             <div className="bg-cyan-50 p-4 rounded-xl mb-6 border border-cyan-100 animate-pulse">
                                 <p className="text-center text-cyan-800">Chargement des informations du match...</p>
@@ -273,6 +270,9 @@ const JoinTrip = () => {
                     </motion.div>
                 ) : null}
             </div>
+
+            <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-100 rounded-full opacity-20 z-0"></div>
+            <div className="absolute -top-16 -left-16 w-48 h-48 bg-cyan-200 rounded-full opacity-20 z-0"></div>
         </div>
     )
 }
