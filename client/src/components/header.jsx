@@ -49,7 +49,7 @@ const Header = () => {
                 </Link>
 
                 <div className="hidden md:flex items-center gap-3">
-                    {!isAuthenticated && pathname !== "/login" && pathname !== "/register" ? (
+                    {!isAuthenticated && pathname !== "/login" && pathname !== "/register" && pathname !== "/change-password" ? (
                         <>
                             <Link to="/login">
                                 <Button
@@ -70,7 +70,7 @@ const Header = () => {
                                 </Button>
                             </Link>
                         </>
-                    ) : pathname !== "/login" && pathname !== "/register" ? (
+                    ) : pathname !== "/login" && pathname !== "/register" && pathname !== "/change-password" ? (
                         <Avatar name={name} email={email} />
                     ) : null}
                 </div>
@@ -78,7 +78,7 @@ const Header = () => {
                 <div className="md:hidden">
                     {isAuthenticated ? (
                         <Avatar name={name} email={email} />
-                    ) : pathname !== "/login" && pathname !== "/register" ? (
+                    ) : pathname !== "/login" && pathname !== "/register" && pathname !== "/change-password" ? (
                         <button
                             className="text-cyan-600 hover:text-cyan-700 focus:outline-none p-1.5 rounded-full hover:bg-cyan-50 transition-all active:bg-cyan-100"
                             onClick={() => setMenuOpen(!menuOpen)}
