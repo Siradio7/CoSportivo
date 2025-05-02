@@ -215,7 +215,9 @@ const Register = () => {
                                     Équipe favorite
                                 </label>
                                 <select 
-                                    {...register("id_favourite_team")} 
+                                    {...register("id_favourite_team", {
+                                        required: "Vous devez sélectionner une équipe"
+                                    })} 
                                     className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all bg-white"
                                     required
                                 >

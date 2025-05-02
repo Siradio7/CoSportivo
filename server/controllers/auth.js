@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 const register = async (req, res) => {
-    const { first_name, last_name, email, password, id_favourite_team } = req.body
+    const { first_name, last_name, email, password, id_favourite_team, brand, color, nb_seats, license_plate } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
     const registration_date = new Date().toISOString().slice(0, 19).replace("T", " ")
 
@@ -23,7 +23,15 @@ const register = async (req, res) => {
                 return res.status(500).json({ message: "Erreur lors de l'inscription" })
             }
 
-            return res.status(201).json({ message: "Inscription réussie" })
+            const id_user = result.insertId
+            const insertCarQuery = "INSERT INTO cars (id_user, brand, color, nb_seats, license_plate) VALUES (?, ?, ?, ?, ?)"
+            db.query(insertCarQuery, [id_user, brand, color, nb_seats, license_plate], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ message: "Erreur lors de l'ajout des informations du véhicule" })
+                }
+
+                return res.status(201).json({ message: "Inscription réussie" })
+            })
         })
     })
 }
