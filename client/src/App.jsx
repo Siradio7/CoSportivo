@@ -81,7 +81,7 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/change-password" element={<ChangePassword />} />
-                <Route path="/matches" element={<PrivateRoute element={<Matches />} />} />
+                <Route path="/matches" element={<Matches />} />
                 <Route path="/trips/:id" element={<PrivateRoute element={<Trips />} />} />
                 <Route path="/my-trips" element={<PrivateRoute element={<MyTrips />} />} />
                 <Route path="/create-trip/:id" element={<PrivateRoute element={<CreateTrip />} />} />

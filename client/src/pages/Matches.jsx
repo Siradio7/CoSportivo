@@ -4,6 +4,7 @@ import toast from "react-hot-toast"
 import Match from "../components/match"
 import { encryptData, decryptData } from "../utils/crypto"
 import Loader from "../components/loader"
+import { isAuthenticated } from "../hooks/useAuth"
 
 const Matches = () => {
     const [matches, setMatches] = useState([])
@@ -12,31 +13,46 @@ const Matches = () => {
     const [error, setError] = useState(null)
     const [filter, setFilter] = useState("all")
     const [searchQuery, setSearchQuery] = useState("")
-    const user = JSON.parse(localStorage.getItem("user"))
+    const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
     const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
 
     useEffect(() => {
         const fetchMatches = async () => {
-            const cacheKey = `matches_${user.id_favourite_team}`
+            const cacheKey = user && user.id_favourite_team 
+                ? `matches_${user.id_favourite_team}` 
+                : 'matches_default'
+            
             const cached = sessionStorage.getItem(cacheKey)
 
             if (cached) {
-                const decrypted = decryptData(cached)
+                try {
+                    const decrypted = decryptData(cached)
 
-                if (decrypted && Date.now() - decrypted.timestamp < 5 * 60 * 1000) {
-                    setMatches(decrypted.data)
-                    setFilteredMatches(decrypted.data)
-                    setLoading(false)
-                    return
+                    if (decrypted && Date.now() - decrypted.timestamp < 5 * 60 * 1000) {
+                        setMatches(decrypted.data)
+                        setFilteredMatches(decrypted.data)
+                        setLoading(false)
+                        return
+                    }
+                } catch (err) {
+                    console.error("Erreur lors du déchiffrement des données en cache:", err)
                 }
             }
 
             try {
-                const response = await fetch(`${API_URL}/api/teams/${user.id_favourite_team}/matches/`)
+                let response
+                
+                if (isAuthenticated && user && user.id_favourite_team) {
+                    response = await fetch(`${API_URL}/api/teams/${user.id_favourite_team}/matches/`)
+                } else {
+                    response = await fetch(`${API_URL}/api/competitions/2015/matches`)
+                }
+                
                 const data = await response.json()
 
                 setMatches(data.matches)
                 setFilteredMatches(data.matches)
+                
                 sessionStorage.setItem(
                     cacheKey,
                     encryptData({ data: data.matches, timestamp: Date.now() })
@@ -50,7 +66,7 @@ const Matches = () => {
         }
 
         fetchMatches()
-    }, [user.id_favourite_team, API_URL])
+    }, [API_URL])
 
     useEffect(() => {
         if (!matches.length) return
