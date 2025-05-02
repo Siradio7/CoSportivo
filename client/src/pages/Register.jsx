@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import Header from "../components/header"
@@ -8,6 +8,7 @@ import { User, Mail, Lock, Eye, EyeOff, UserPlus } from "lucide-react"
 import toast from "react-hot-toast"
 
 const Register = () => {
+    const [teams, setTeams] = useState([])
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -16,6 +17,22 @@ const Register = () => {
     const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
     
     const password = watch("password", "")
+
+    useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                const response = await fetch(`${API_URL}/api/teams`)
+                const data = await response.json()
+
+                setTeams(data)
+            } catch (error) {
+                console.error("Erreur lors du chargement des équipes :", error)
+                setTimeout(fetchTeams, 2000)
+            }
+        }
+
+        fetchTeams()
+    }, [])
 
     const handleRegister = async (data) => {
         if (data.password !== data.confirm_password) {
@@ -191,6 +208,24 @@ const Register = () => {
                                 {errors.confirm_password && (
                                     <p className="mt-1 text-sm text-red-600">{errors.confirm_password.message}</p>
                                 )}
+                            </div>
+
+                            <div className="md:col-span-2">
+                                <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Équipe favorite
+                                </label>
+                                <select 
+                                    {...register("id_favourite_team")} 
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all bg-white"
+                                    required
+                                >
+                                    <option value="">Sélectionnez une équipe</option>
+                                    {teams.map((team) => (
+                                        <option key={team.id} value={team.id}>
+                                            {team.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
                             <div className="flex justify-center">
