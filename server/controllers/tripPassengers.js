@@ -93,8 +93,9 @@ const updateTripPassenger = async (req, res) => {
     })
 }
 
-const cancellReservation = async (req, res) => {
-    const { trip_id, user_id } = req.body
+const cancelReservation = async (req, res) => {
+    const trip_id = req.params.id
+    const { user_id } = req.body
     const sql = "SELECT seats_reserved FROM trip_passengers WHERE trip_id = ? AND user_id = ?"
 
     db.query(sql, [trip_id, user_id], (err, result) => {
@@ -169,6 +170,6 @@ export {
     getAllTripPassengers,
     getTripPassengerById,
     updateTripPassenger,
-    cancellReservation,
+    cancelReservation,
     getTripsByPassengerId
 }

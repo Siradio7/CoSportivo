@@ -14,6 +14,8 @@ const MyTrips = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [matchDetails, setMatchDetails] = useState(null)
     const [loadingMatch, setLoadingMatch] = useState(false)
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
+    const [tripToCancel, setTripToCancel] = useState(null)
 
     const API_URL = import.meta.env.VITE_DEV_BACKEND_URL
     const user = JSON.parse(localStorage.getItem("user"))
@@ -68,6 +70,39 @@ const MyTrips = () => {
 
         fetchTrips()
     }, [])
+
+    const showCancelConfirmation = (tripId) => {
+        setTripToCancel(tripId)
+        setIsConfirmModalOpen(true)
+    }
+
+    const cancelJoinedTrip = async (tripId) => {
+        setIsLoading(true)
+        setError(null)
+        setIsConfirmModalOpen(false)
+
+        try {
+            const response = await fetch(`${API_URL}/trip-passengers/${tripId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify({ user_id: user.id })
+            })
+
+            if (!response.ok) {
+                throw new Error("Erreur lors de l'annulation du trajet")
+            }
+
+            setJoinedTrips((prevTrips) => prevTrips.filter((trip) => trip.id !== tripId))
+        } catch (err) {
+            console.error(err)
+            setError("Une erreur est survenue lors de l'annulation du trajet")
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     const openModal = async (trip) => {
         setSelectedTrip(trip)
@@ -252,9 +287,7 @@ const MyTrips = () => {
 
                                     {activeTab === 'joined' && (
                                         <button
-                                            onClick={() => {
-                                                alert("Fonctionnalité d'annulation à venir")
-                                            }}
+                                            onClick={() => showCancelConfirmation(trip.id || trip.trip_id)}
                                             className="bg-red-100 text-red-600 hover:bg-red-200 transition rounded-xl py-2"
                                         >
                                             Annuler ma participation
@@ -342,6 +375,46 @@ const MyTrips = () => {
                                 >
                                     Accéder au chat
                                 </Link>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+
+                {isConfirmModalOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-lg mx-4 relative"
+                        >
+                            <button
+                                onClick={() => setIsConfirmModalOpen(false)}
+                                className="absolute top-1 right-3 text-gray-500 hover:text-gray-700 text-3xl"
+                            >
+                                &times;
+                            </button>
+
+                            <h2 className="text-2xl text-center mt-1 font-bold text-cyan-700 mb-4">Confirmation d'annulation</h2>
+                            <p className="text-gray-700 text-center mb-4">Êtes-vous sûr de vouloir annuler votre participation à ce trajet ?</p>
+                            <div className="flex justify-center gap-4">
+                                <button
+                                    onClick={() => setIsConfirmModalOpen(false)}
+                                    className="bg-gray-200 text-gray-700 hover:bg-gray-300 transition rounded-xl py-2 px-4"
+                                >
+                                    Annuler
+                                </button>
+                                <button
+                                    onClick={() => cancelJoinedTrip(tripToCancel)}
+                                    className="bg-red-600 text-white hover:bg-red-700 transition rounded-xl py-2 px-4"
+                                >
+                                    Confirmer
+                                </button>
                             </div>
                         </motion.div>
                     </motion.div>

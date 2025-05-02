@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { joinTrip, getAllTripPassengers, getTripPassengerById, updateTripPassenger, cancellReservation, getTripsByPassengerId } from "../controllers/tripPassengers.js"
+import { joinTrip, getAllTripPassengers, getTripPassengerById, updateTripPassenger, cancelReservation, getTripsByPassengerId } from "../controllers/tripPassengers.js"
 
 const router = Router()
 
@@ -8,6 +8,6 @@ router.get("/", getAllTripPassengers)
 router.get("/:id", getTripPassengerById)
 router.get("/user/:id", getTripsByPassengerId)
 router.patch("/:id", updateTripPassenger)
-router.delete("/", cancellReservation)
+router.delete("/:id", cancelReservation)
 
 export default router
