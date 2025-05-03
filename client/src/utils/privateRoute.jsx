@@ -3,7 +3,7 @@ import toast from "react-hot-toast"
 import { Navigate } from "react-router-dom"
 
 
-const PrivateRoute = ({ element, ...rest }) => {
+const PrivateRoute = ({ element }) => {
     const token = localStorage.getItem('token')
 
     const isTokenExpired = (token) => {
