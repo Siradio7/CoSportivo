@@ -61,26 +61,14 @@ const Match = ({ id, competition_emblem, competition_name, area_flag, home_team_
                 }
             </p>
 
-            {
-                isAuthenticated() ? (
-                    <Link to={`/trips/${id}`}>
-                        <Button
-                            className="mt-2 mx-auto w-full bg-cyan-600 text-white hover:bg-cyan-700 transition rounded-xl py-2"
-                            variant="primary"
-                        >
-                            Voir les covoiturages
-                        </Button>
-                    </Link>
-                ) : (
-                    <Button
-                        className="mt-2 mx-auto w-full bg-cyan-600 text-white hover:bg-cyan-700 transition rounded-xl py-2"
-                        variant="primary"
-                        disabled
-                    >
-                        Voir les covoiturages
-                    </Button>
-                )
-            }
+            <Link to={`/trips/${id}`}>
+                <Button
+                    className="mt-2 mx-auto w-full bg-cyan-600 text-white hover:bg-cyan-700 transition rounded-xl py-2"
+                    variant="primary"
+                >
+                    Voir les covoiturages
+                </Button>
+            </Link>
         </div>
     )
 }
