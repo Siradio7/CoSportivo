@@ -79,4 +79,4 @@ const checkEmail = (req, res) => {
     })
 }
 
-export { register, login }
+export { register, login, checkEmail }

@@ -76,12 +76,6 @@ const Settings = () => {
             return
         }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        if (!emailRegex.test(email)) {
-            toast.error("Adresse e-mail invalide")
-            return
-        }
-
         if (email !== myData.email) {
             try {
                 const response = await fetch(`${API_URL}/auth/check-email`, {
@@ -256,7 +250,7 @@ const Settings = () => {
                                             </label>
                                             <input 
                                                 {...register("email")} 
-                                                type="email" 
+                                                type="email"
                                                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all outline-none" 
                                                 defaultValue={myData.email} 
                                             />
