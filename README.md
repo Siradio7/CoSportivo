@@ -1,3 +1,7 @@
+# Membres du groupe
+- Kidaei Rawia
+- Mamadou Siradiou Diallo
+
 # 🏟️ CoSportivo
 ## *La plateforme de covoiturage dédiée aux passionnés de sport*
 
